@@ -1,90 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795181770;
-	b=cbIiZ1x4ILizJHOogknx574pFOGbze7HM20oX5O2IvmmuFSKvbdEuV2dmPtHUm8EVEEN
-	 nJ+6/RscBmF70b/Cd7noda7KH3dVPGXnXhje5+c9ycjA+GqsGOyRfAfTG5Aa4auyBRNJb
-	 UKJiZ5opX9Ohz9LwnSg8gNnyGGBLuzbWJApP7tjUZmyZc76xLrivkbSmEofC2+tBd+OFn
-	 ZJQR+T28iylufhCb1EHnXdDodozdppbaU/sdsDn3QrX48+dMkjnBvmK7Rq4r6ddOeC3Os
-	 5E3mF1lPP1b1u/C4V09bpss8YwxihrBHBr7rLFx44wTwvalNH/XM/I5XpC3Etlrxlrg==
+	t=1795181772;
+	b=IkuA6xef5xmefbJT2XZbpLsoONAaedLi7bqm57cVaUM/oGpCuSfeuKoPWLAlv/LCZe/i
+	 efQbckilR2ujl423NGrPQOIED9RqaRWVGfXhwXhWIZ3p0nJegXZrnWmKfo24YSmKWRyeY
+	 ooFXO0XrjTjZj0Mb2K1W2Zs0K6omxuW5R+ywIkpdemPNzG5j/nDyoK1PXJURD1fhEYmUg
+	 MkPbVHWPD/LZhDR8CrmTcB6XfVrY/2CfNQB70GemRh2aSTjx/NiWBJitnZL9vuDwrJiKr
+	 nPfgCE027rjp59aFdiWuSMPMHIc92bH/3jzEUHTr0NAmdP7CuDojgN73/BptVJRTu6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795181770;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795181772;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=/vILFpTBKVy7hMrZddb0IwK/uJclDAZCWjwJQwnPh2M=;
-	b=gbsxl57NJUmG36denXvbcW0hP8Si1Db0QEJGVFw9+Izl2I550V0eHj/mtnIi1rsTSVBn
-	 7wqpoIq8VGhTqA4XlmXHwFzKfdf4wzSBG3zFIGU8EUrtnddV1h+jZwqwAnu56ctZUyQwx
-	 HS2UOo4he2gwwBMD3Rcj6O2XAS0IunfuzPLCE71xvclFXUBmgFr3Lv3klm9cUpGA4Y33Q
-	 nid+srxTzHiQiWzk8mOa0rBCWecSBXsJE3WXjp4umgFegOcWKgky/4sxMDN6cRXSEXdwR
-	 d+zySNCLiHAcmlgBn3OyX9t7br9hs9T++GkDAhhi5TNi7/JM7utSaNiIKDamxv5GiyA==
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=buQIV0vkdXGXpQqdQz4ZB0pqcKMsGECCL78uKqu8k0I=;
+	b=yP1U5qhGvsgKT5zt4DdpQnQa92Vgyvz46mizlVaSDXoX2OyiqXCWNx25joCGogpO0nn0
+	 vAeq+MCCZUBZB8LZtPTwcIUBkBsdyf9h7QK5x5fpXbsQRXyurGvCm8J/LN8szXj2S6Fv7
+	 l/AFfaxkjhq6+6jcKv7WueK+EPpSrVKOHoEcUWYoxQ+/yb0Y1IBdoXWEA2XKUnuy2Udyd
+	 74bQ1tsvV2hlFOCmsOUhCSedZ6m6rmmI4ii0ynvfUptQKsn5FQNjAVwvpscIhtrHSTjGs
+	 sYSzyTVUkTkkNI4dXcSaf0J0SuXtOgJP6X8JC59z9/UQi8Ohlmslebuwtm8r7oNhMqw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JehTsPjO;
-	arc=none smtp.remote-ip=209.85.215.171
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="pZm/+8hF";
+	arc=none smtp.remote-ip=209.85.216.49
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522E1606A320
-	for <ntfs3@lists.linux.dev>; Fri, 20 Nov 2026 13:36:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 522E1606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9115A606A32C
+	for <ntfs3@lists.linux.dev>; Fri, 20 Nov 2026 13:36:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9115A606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JehTsPjO
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cc758830601so690230a12.2
-        for <ntfs3@lists.linux.dev>; Fri, 20 Nov 2026 05:36:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pZm/+8hF
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3b3a914e4c8so531635a91.0
+        for <ntfs3@lists.linux.dev>; Fri, 20 Nov 2026 05:36:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795181770; x=1795786570; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/vILFpTBKVy7hMrZddb0IwK/uJclDAZCWjwJQwnPh2M=;
-        b=JehTsPjOea+25w+j6xOwQfBQLfTquOn2y6tCoqYkWCf32W0c9JQvtERkZBCuOD41a3
-         Ajh7YefDYKcZChQhW5jM7IgzjHK7KxLN9ldsGBn2FXejDtNlbJ8h4KgDST/eEV1twe5G
-         6r87zl+eMdO0mzHQGPeGQiOxjsB0x9waqw3uN7FvW8SIvOfjejpbseUdT+6LIQcIRDPH
-         ip0ad4vn6x0QgiJHTTgZREAA+lFKqIV4yR9FIIz0Q/W/1nz97npK+DXLyc5HyQGy61lO
-         W+7eW4Kd5F4LN+trvWh3X3VMght4FxPkiSpITv0OKJ4rGCWNq4Krtf4ZKqMISSx2koYH
-         ot2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795181770; x=1795786570;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1795181772; x=1795786572; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=/vILFpTBKVy7hMrZddb0IwK/uJclDAZCWjwJQwnPh2M=;
-        b=wVffhsYUb4n/9EIH8lNLQpFBoKkXQd6HVtm0SSZwIKrfOzPj7uOUI3Oyv9Yp+WHdXQ
-         ar4ehMHaBS0eG38+JYItD9yRf8jUHIa0nuDpCF5fTOhH5hwTp0/qU+sV0u9bR7m9z1Ws
-         Xlzk+4enM1w8y2OLwzkUt99D9YAY3AFn387G0onri9kKv2nTW1MDejyKgiz6gsuuRG/4
-         HQ9k6xc+FaDSqot20kKH5ZSNkjzHFFX42DsM7N0TmaFTs/f5TNPAEMdG4D25WKX5I2Vj
-         KNI6p2epOpdlrJZDD9HxM8C3CgPMJS+eGcep3MyxA6nP94HAdTPYJs1hhIeZfnGI8ZAG
-         3mNA==
-X-Gm-Message-State: APuU4Z8ap724TKpjo9FWXEQvVTBqcjYW6wi5b2aEKtqZDec67iNzXF7o
-	C5H3d/ALbuhlN/9IbR7D6BBvP44pweoVYDyf8gqzltodPRfMijbugcnL
-X-Gm-Gg: AZFdTZcnpJy9ngZU6j8Lq0680HlsZqJ/RsIxy84VlPjMpTW9M1C9JHXD350uPPjn2CG
-	V++k5taQsKxeHanvVSNkZWqs6Ehsf9Lc8RpqDqjzbGM0Q2e7W/CRF+t6Y9DPJawgNg6m9tNuhU+
-	+8ENctmrWSPFw+kPWouRYr/XIS+QSCbigkS60IgXQ2LaayRIfzGsLwJJLsGqgCJ5mdCWOtVnDSO
-	tKLzyYGHi+n9dZn+C0Ov5hcBsUwK0qMGpv/xqud4J1YeXKxBCtGeo4Yj9UKd2phVobnA0c/mOvx
-	z83pcP2y6yU76YxokdVoUQT/vgAs+27OllbPSj8fKIaw97xrVoszQg9NfUfulcoXYI5aM4ebYvt
-	N0MMwWwn+xjIgVt1s5dTvXP/3VGg/naRYrPjOF5snodUl5DPj7iVCGOgHoX2L3Jht2sZc7GMqkF
-	fxzm1RBtF1eZskcE1QIPrWU2POY4JIIemzR8ixAuFFxoWc/ECZrsWhnGhKSPPIsRX3Ajp7CNDnc
-	GsOO0vIiMjYibPt3sTJvQtgQ5LVpuqtg/RKh1TQ5w/cuzjAg9OnsXo4uTOWEk06Sw8JorxX8MJW
-	L9Z2wRh6qeiy7oSLc4ppLDiI5P0fIQNYNYh7czIX6s8ugA==
-X-Received: by 2002:a17:90b:2688:b0:3ac:ffb8:183b with SMTP id 98e67ed59e1d1-3b41c97ab4emr2678585a91.51.1795181769634;
-        Fri, 20 Nov 2026 05:36:09 -0800 (PST)
+        bh=buQIV0vkdXGXpQqdQz4ZB0pqcKMsGECCL78uKqu8k0I=;
+        b=pZm/+8hF7krucnf/XIDN4Wyl53tAe8xus3yfRyaay1ZRf8n2JMm4jjtO43b3xqDUYj
+         /hAejmV3UtfD7mWlJ009myRiDWxPO6frtwbjrJwRLqZW88bI005TvGSnpjAoVvGjTmmr
+         /GOyxk/uEaaHAHIfIM6kCJrh8a6gmetukWqWO1Q7g9kYSL9kK90d7+qzB8B7sjShQK1s
+         IwaZbbCY+fffKWlrKYBYJWxbUDlEC89s+nG3fCapoes4279542Vk7v6zHHouqb9gcZoe
+         JKiOaUewSV1kVkSKY0QCT1Zp4feE+xU5tmtJKK9qGTZFBOef8+HiBzBFPztYj/T90oJI
+         6dow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795181772; x=1795786572;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=buQIV0vkdXGXpQqdQz4ZB0pqcKMsGECCL78uKqu8k0I=;
+        b=C8UqWIv8QO29NyN3FE550o4rBoAoqKX9tWNNr+rbbHSFm3/qTRUGyNhr90vsMQtabI
+         zRGfi+bLYP1Mq+CGNz0nsuXzTnBNiCQHDMUGUbgNJI16zNv9iQq4Qcs0aQSmrttF2k94
+         W2OghsXR6Jh86ObaV0JZK8hYbuP2ArAH9oONdempwA8lUAO6Kzw2KeJcLePpMrOPzGpY
+         erzDZDuU0D/zN0ZOdNcKFNrjx4291fKddWqT9c8PZYSzytTzn+DnPHI2NBpHwSLXRiQa
+         5kbx8y0mh/W+QYolUqM5v5wwU6kSwy9QImAYY7P+0YUdDbj2lGkKHbfNYvzDUHByGny7
+         pHgQ==
+X-Gm-Message-State: APuU4Z9dM5TW5fXkmBAzlgsJH/7+z9+tzffIuTlec4t3Yju4Gn5zIf08
+	FQhOCYFH878yy/iJs440+OX44RGcQ8KFEvTx5DXpz6Ex0PKtLXPA5LYO
+X-Gm-Gg: AZFdTZdAx5V03WJkAWqCwUE+4DFtBnFCykgKZK5jt6WTl+i7jnOWVpn6LKsrJY9nipS
+	0RNhrIaBcEmmz1K6e3aIfg7nTs2DngbdeSZEFLvPKrLBcLXSGrf7VPUMqtbC1dCg3icqmGLzCjd
+	gewzfEgMr3/zneS4bEGE69TMxKWuZ6Bfpw2ZOtRCJoyJnfltFPXMV4DqrP4dCJl6XSaPHtyG6vp
+	LmkbqWTYYY4s3jHMlhli1kn1ZEY+JGwWaii7z9wTw8Vir9f/PSAlKKCxsSalEyita7ZnU4eeqwL
+	xyj7yEpYc/Po4jKGLyXCISc1jOdTBYw+UvaQD+rxmfp+gf4abyZNiI0/rMJFCUwVqcBShgDXGgV
+	kl5abuY4n0Jr+e3BR1GQGkVCF4DDYYVQVYsMOt6Gl7k6iDJYLyrPAQ4ltSznKr3oJ5zK4XvXZ2g
+	5K7/5LybRX5oFrFr7QBi8fPZBkYfOH5I5fkcbjoaEsMhWFLJYVAkz3zLQMA7K8U1pBB+EGc//sZ
+	cbPo1l+0sK9GarqA8eIe4alCqOTD3QbAcxWz82PoelFxldBirg7DY9R9r1oR6PQTs8NP/nIkde2
+	YOpHxXgZXtDhWh581cFTQGa/WF43/nappoMR/mE0g7zIKeUG3aOrtubpMt0dMdbkyZw=
+X-Received: by 2002:a17:90a:e70c:b0:3b3:a9a4:a60e with SMTP id 98e67ed59e1d1-3b41c92643amr2783153a91.25.1795181771890;
+        Fri, 20 Nov 2026 05:36:11 -0800 (PST)
 Received: from osman.mioffice.cn ([43.224.245.178])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b405ec698dsm7557362a91.14.2026.11.20.05.36.07
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b405ec698dsm7557362a91.14.2026.11.20.05.36.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 05:36:09 -0800 (PST)
+        Fri, 20 Nov 2026 05:36:11 -0800 (PST)
 From: Zhan Xusheng <zhanxusheng1024@gmail.com>
 To: almaz.alexandrovich@paragon-software.com
 Cc: ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org,
 	zhanxusheng@xiaomi.com
-Subject: [PATCH 1/2] fs/ntfs3: allocate only the written range of a hole on writeback
-Date: Fri, 20 Nov 2026 21:36:03 +0800
-Message-ID: <20261120133604.427285-1-zhanxusheng1024@gmail.com>
+Subject: [PATCH 2/2] fs/ntfs3: zero new clusters that a write only partly covers
+Date: Fri, 20 Nov 2026 21:36:04 +0800
+Message-ID: <20261120133604.427285-2-zhanxusheng1024@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261120133604.427285-1-zhanxusheng1024@gmail.com>
+References: <20261120133604.427285-1-zhanxusheng1024@gmail.com>
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -98,55 +102,49 @@ Content-Transfer-Encoding: 8bit
 
 From: Zhan Xusheng <zhanxusheng@xiaomi.com>
 
-ntfs_writeback_range() maps from the folio to the end of the file with
-one ntfs_iomap_begin() call, and for a sparse file that call allocates
-the holes it maps.  A page stored through a shared mapping reaches
-writeback without a delayed allocation, so writing it back allocates
-every cluster from that page to the end of the file.  Only the page is
-written, and ntfs_filemap_close() later raises the valid size over the
-rest.
+When ntfs_iomap_begin() allocates clusters in a hole, the part of a new
+cluster that the request does not write keeps the old disk contents,
+and reads below the valid size return it.  The iomap conversion asked
+attr_data_get_block() to zero such clusters only for writes through the
+page cache, and commit 10d7c95af043 ("fs/ntfs3: add delayed-allocation
+(delalloc) support") stopped asking for it at all.  Only the delalloc
+path still zeroes them.
 
-On a volume with 4K clusters, map a 4096-byte sparse file MAP_SHARED for
-100 MiB, grow it to 100 MiB with ftruncate() and store 8 bytes at 4096:
-97876 KiB are allocated instead of 8 KiB.  With a 4 MiB file and the
-store at 2M, the 2093056 bytes from 2M + 4K to the end of the file read
-back what their clusters held before.
+On a volume with 64K clusters, write 4K at 0 and at 960K into a sparse
+file, then 4K at 512K: 61440 bytes of the file read back old disk
+contents, both with O_DIRECT and with a buffered write on a volume
+mounted without delalloc.
 
-Map only the range being written back for a sparse file.
+Zero the new clusters when the request does not cover them.
 
 Fixes: 099ef9ab9203 ("fs/ntfs3: implement iomap-based file operations")
+Fixes: 10d7c95af043 ("fs/ntfs3: add delayed-allocation (delalloc) support")
 Cc: stable@vger.kernel.org
 Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
 ---
-Tested in a VM on 7.4-rc3 (20eef29b7c84), 4K and 64K clusters, with and
-without delalloc, with the free space filled with a known pattern first.
-The numbers in both changelogs are from 7.4-rc3 without the series.
+With 4K clusters a page covers a whole cluster, so only 64K clusters
+show it in these tests.  With both patches, fsx with mmap on 4K and 64K
+cluster volumes and on sparse and compressed files gives the same
+results as before.
 
-For a sparse file, writeback now calls ntfs_iomap_begin() for each
-dirty range instead of once per extent.
-
- fs/ntfs3/inode.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ fs/ntfs3/inode.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index 45f894d182dd..535a2b0804af 100644
+index 535a2b0804af..9c2ded9567f7 100644
 --- a/fs/ntfs3/inode.c
 +++ b/fs/ntfs3/inode.c
-@@ -1181,7 +1181,11 @@ static ssize_t ntfs_writeback_range(struct iomap_writepage_ctx *wpc,
- 		struct ntfs_inode *ni = ntfs_i(inode);
- 		struct ntfs_sb_info *sbi = ntfs_sb(inode->i_sb);
- 		loff_t i_size_up = ntfs_up_cluster(sbi, inode->i_size);
--		loff_t len_max = i_size_up - offset;
-+		/*
-+		 * Map up to EOF in one go, except across the holes of a sparse
-+		 * file: iomap_begin() allocates what it maps there.
-+		 */
-+		loff_t len_max = is_sparsed(ni) ? len : i_size_up - offset;
+@@ -982,6 +982,10 @@ static int ntfs_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
+ 	 */
+ 	no_da = flags == (IOMAP_DIRECT | IOMAP_WRITE) || srcmap == WB_NO_DA;
  
- 		err = ni->file.run_da.count ? ni_allocate_da_blocks(ni) : 0;
++	/* The request does not write all of a new cluster: zero it first. */
++	if (rw && ((offset | endbyte) & sbi->cluster_mask))
++		zero = true;
++
+ 	err = attr_data_get_block(ni, vcn, clen_max, &lcn, &clen,
+ 				  rw ? &new_clst : NULL, zero, &res, no_da);
  
-
-base-commit: 20eef29b7c8465ac98d7dd6d6f2ac07a8d8056ca
 -- 
 2.43.0
 
