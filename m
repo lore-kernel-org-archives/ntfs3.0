@@ -1,94 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795181772;
-	b=IkuA6xef5xmefbJT2XZbpLsoONAaedLi7bqm57cVaUM/oGpCuSfeuKoPWLAlv/LCZe/i
-	 efQbckilR2ujl423NGrPQOIED9RqaRWVGfXhwXhWIZ3p0nJegXZrnWmKfo24YSmKWRyeY
-	 ooFXO0XrjTjZj0Mb2K1W2Zs0K6omxuW5R+ywIkpdemPNzG5j/nDyoK1PXJURD1fhEYmUg
-	 MkPbVHWPD/LZhDR8CrmTcB6XfVrY/2CfNQB70GemRh2aSTjx/NiWBJitnZL9vuDwrJiKr
-	 nPfgCE027rjp59aFdiWuSMPMHIc92bH/3jzEUHTr0NAmdP7CuDojgN73/BptVJRTu6Q==
+	t=1795183561;
+	b=dKRUHSl/pzcey2wzJKuNPlHounuFxOrDV+B4evA7Oo0V4RZbjGHBmWc2H+qHN364Hq6h
+	 7btTuOQXCPCPhIiakLyuXyMA4GvGx/imcrGZ0UFyv08YSl9Yd8vVuHZ2PkbG/EH+JfYub
+	 sWdpwzvPJrJkGG0EolQX2ovAD6bXhmIcSa8N0tGR4Lz+Spwou95zQ6mu/vyHMOO9EOYHp
+	 G4u6L/cFDD40IP3kpb6aXPRIuNZrCh14YVD/pK/+AUmNtWJKONBv1R1g7OieH83qpWROD
+	 cEwCjflL4aW7qSU7CWO0mgCCJy3m5gS/2tuoNbFpgYdEGCZ77+p5wUFmrJ6U5dOpM+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795181772;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795183561;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=buQIV0vkdXGXpQqdQz4ZB0pqcKMsGECCL78uKqu8k0I=;
-	b=yP1U5qhGvsgKT5zt4DdpQnQa92Vgyvz46mizlVaSDXoX2OyiqXCWNx25joCGogpO0nn0
-	 vAeq+MCCZUBZB8LZtPTwcIUBkBsdyf9h7QK5x5fpXbsQRXyurGvCm8J/LN8szXj2S6Fv7
-	 l/AFfaxkjhq6+6jcKv7WueK+EPpSrVKOHoEcUWYoxQ+/yb0Y1IBdoXWEA2XKUnuy2Udyd
-	 74bQ1tsvV2hlFOCmsOUhCSedZ6m6rmmI4ii0ynvfUptQKsn5FQNjAVwvpscIhtrHSTjGs
-	 sYSzyTVUkTkkNI4dXcSaf0J0SuXtOgJP6X8JC59z9/UQi8Ohlmslebuwtm8r7oNhMqw==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:X-Mailer:
+	 References:In-Reply-To;
+	bh=lQXWhNQQlhPXEIIcGVoxJddlPdJJNSTkNAUDZ7QCuXs=;
+	b=v/BOyM25doBmgR+OC5U452WlM1qYEAXaMSYbh1LOcxycdDNscGdvmPlmzlXmSEj64U8D
+	 nkgX2oF4srHGGZQhWRuLWQODCOjUDgTHczokRdKVbjBXzpXQHgSWp/+8XzvO7erIs0rSA
+	 hoHu+B+wWx8jyBd3QuBl9Urs0fmWs7RyCZmUkEkJCv94HNVoNMBPS1FINLbh4f/hbXZrA
+	 VJCFCRFun2y3c+S3nyCUWOWt1eHyfKMOoG+liFCbDSAB7irp0VuIYJpVQnS4qJ4KxHM1A
+	 zxLe2Dfn6u4L9gMTaRinuKq7Mpy24rktdDn1FmqHJEArzeCQqQDPFgah1fnUuXWbGOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="pZm/+8hF";
-	arc=none smtp.remote-ip=209.85.216.49
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sppLH3HQ;
+	arc=none smtp.remote-ip=209.85.221.53
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9115A606A32C
-	for <ntfs3@lists.linux.dev>; Fri, 20 Nov 2026 13:36:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9115A606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF80E606A339
+	for <ntfs3@lists.linux.dev>; Fri, 20 Nov 2026 14:06:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AF80E606A339
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pZm/+8hF
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3b3a914e4c8so531635a91.0
-        for <ntfs3@lists.linux.dev>; Fri, 20 Nov 2026 05:36:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sppLH3HQ
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-491971ac844so796084f8f.2
+        for <ntfs3@lists.linux.dev>; Fri, 20 Nov 2026 06:06:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795181772; x=1795786572; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=buQIV0vkdXGXpQqdQz4ZB0pqcKMsGECCL78uKqu8k0I=;
-        b=pZm/+8hF7krucnf/XIDN4Wyl53tAe8xus3yfRyaay1ZRf8n2JMm4jjtO43b3xqDUYj
-         /hAejmV3UtfD7mWlJ009myRiDWxPO6frtwbjrJwRLqZW88bI005TvGSnpjAoVvGjTmmr
-         /GOyxk/uEaaHAHIfIM6kCJrh8a6gmetukWqWO1Q7g9kYSL9kK90d7+qzB8B7sjShQK1s
-         IwaZbbCY+fffKWlrKYBYJWxbUDlEC89s+nG3fCapoes4279542Vk7v6zHHouqb9gcZoe
-         JKiOaUewSV1kVkSKY0QCT1Zp4feE+xU5tmtJKK9qGTZFBOef8+HiBzBFPztYj/T90oJI
-         6dow==
+        d=gmail.com; s=20260707; t=1795183559; x=1795788359; darn=lists.linux.dev;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-type:mime-version:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=lQXWhNQQlhPXEIIcGVoxJddlPdJJNSTkNAUDZ7QCuXs=;
+        b=sppLH3HQnTMm0dwH5x3UzctNvz8ZR/l+nARy/ldCaJ1MjqbfIMkVBTuTBT+98g7B0O
+         f3mlcqHz7cFy3e/6TmQy7YlWj9RhhC0WapIyYe0VOE6Z1FX8WXkYwyGY+Mo9YiXc5WX+
+         UIviaU6JuOYsn/VVYryVwHof/m4ee3ETmi0oreDBKQIRGj4LXynruceZzyygZzGRY/Kq
+         6kTZckWVxkmP+7FBhcXfpN5Whq6gqhpWPLaM/eaOHCfI4ID+R79dc0XMIA1sRQE+Uq7J
+         uo75RmWep0Hsi+X8kc15YCNvP78scxbMAOeiJSHHu+PTX9bU0MTjt5m56jYuMn2PuL0T
+         +JDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795181772; x=1795786572;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=buQIV0vkdXGXpQqdQz4ZB0pqcKMsGECCL78uKqu8k0I=;
-        b=C8UqWIv8QO29NyN3FE550o4rBoAoqKX9tWNNr+rbbHSFm3/qTRUGyNhr90vsMQtabI
-         zRGfi+bLYP1Mq+CGNz0nsuXzTnBNiCQHDMUGUbgNJI16zNv9iQq4Qcs0aQSmrttF2k94
-         W2OghsXR6Jh86ObaV0JZK8hYbuP2ArAH9oONdempwA8lUAO6Kzw2KeJcLePpMrOPzGpY
-         erzDZDuU0D/zN0ZOdNcKFNrjx4291fKddWqT9c8PZYSzytTzn+DnPHI2NBpHwSLXRiQa
-         5kbx8y0mh/W+QYolUqM5v5wwU6kSwy9QImAYY7P+0YUdDbj2lGkKHbfNYvzDUHByGny7
-         pHgQ==
-X-Gm-Message-State: APuU4Z9dM5TW5fXkmBAzlgsJH/7+z9+tzffIuTlec4t3Yju4Gn5zIf08
-	FQhOCYFH878yy/iJs440+OX44RGcQ8KFEvTx5DXpz6Ex0PKtLXPA5LYO
-X-Gm-Gg: AZFdTZdAx5V03WJkAWqCwUE+4DFtBnFCykgKZK5jt6WTl+i7jnOWVpn6LKsrJY9nipS
-	0RNhrIaBcEmmz1K6e3aIfg7nTs2DngbdeSZEFLvPKrLBcLXSGrf7VPUMqtbC1dCg3icqmGLzCjd
-	gewzfEgMr3/zneS4bEGE69TMxKWuZ6Bfpw2ZOtRCJoyJnfltFPXMV4DqrP4dCJl6XSaPHtyG6vp
-	LmkbqWTYYY4s3jHMlhli1kn1ZEY+JGwWaii7z9wTw8Vir9f/PSAlKKCxsSalEyita7ZnU4eeqwL
-	xyj7yEpYc/Po4jKGLyXCISc1jOdTBYw+UvaQD+rxmfp+gf4abyZNiI0/rMJFCUwVqcBShgDXGgV
-	kl5abuY4n0Jr+e3BR1GQGkVCF4DDYYVQVYsMOt6Gl7k6iDJYLyrPAQ4ltSznKr3oJ5zK4XvXZ2g
-	5K7/5LybRX5oFrFr7QBi8fPZBkYfOH5I5fkcbjoaEsMhWFLJYVAkz3zLQMA7K8U1pBB+EGc//sZ
-	cbPo1l+0sK9GarqA8eIe4alCqOTD3QbAcxWz82PoelFxldBirg7DY9R9r1oR6PQTs8NP/nIkde2
-	YOpHxXgZXtDhWh581cFTQGa/WF43/nappoMR/mE0g7zIKeUG3aOrtubpMt0dMdbkyZw=
-X-Received: by 2002:a17:90a:e70c:b0:3b3:a9a4:a60e with SMTP id 98e67ed59e1d1-3b41c92643amr2783153a91.25.1795181771890;
-        Fri, 20 Nov 2026 05:36:11 -0800 (PST)
-Received: from osman.mioffice.cn ([43.224.245.178])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b405ec698dsm7557362a91.14.2026.11.20.05.36.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 05:36:11 -0800 (PST)
-From: Zhan Xusheng <zhanxusheng1024@gmail.com>
-To: almaz.alexandrovich@paragon-software.com
-Cc: ntfs3@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	zhanxusheng@xiaomi.com
-Subject: [PATCH 2/2] fs/ntfs3: zero new clusters that a write only partly covers
-Date: Fri, 20 Nov 2026 21:36:04 +0800
-Message-ID: <20261120133604.427285-2-zhanxusheng1024@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261120133604.427285-1-zhanxusheng1024@gmail.com>
-References: <20261120133604.427285-1-zhanxusheng1024@gmail.com>
+        d=1e100.net; s=20260707; t=1795183559; x=1795788359;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=lQXWhNQQlhPXEIIcGVoxJddlPdJJNSTkNAUDZ7QCuXs=;
+        b=1XNh2b+HmKa4DnX7O8NHVb0fmxB9LRyIjuKa8LJfMqjRb9hU4l/EsTa2C1MGkyrVO5
+         ffqyT+W65pfzhLeJR2C+CkxAZR7iQAbVhbWR0L5+57TAWhqPvTjhfvRC6b7ospI9VGip
+         1gvR0CtrYYW/0Q6tcjS0G1DrNUn3MPSbrmwoG7jAL4OHxFu9V0oh9r26IDmYSUtu1lv+
+         99bBQrfGF/8pNicRkfNNWCXgNOXmG46CyXxWwOlXFjS9tekAPggkVXFwgnNJsIzDYju+
+         Ioa6/D+TqNcJpb37wo/aMxF8+NPknGorO7W2cQXbstBgZFpwd7bdbUKNk6Bf89VA7dcj
+         uiBw==
+X-Forwarded-Encrypted: i=1; AL+hErHQcaSxh4EcNsxJF/XEEt7N6kJWzgQYQ7IuIg59o8TLd9FDfH6fapan0FrO+/WLMqIvBpduXQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+fueD16TVnXrXuijBx5/GBS+J9rs2DTW3pEto52TgtzqhYDdEM
+	PdWQm746ztMDye4Y9DQm7tj1c+v2UHEQF+c4Qo18xf92hXjs9cKyf3ud
+X-Gm-Gg: AZFdTZc5KLQZcCJmPc0sfzcSZHSGlLGNJ4v5oSCCBfl6YOTXRsK+fG1CGRKNGZyV0QX
+	lpmx4d+O+ApXUlmGrDo4CWbSDHlFUJ/fa9XeAPho9rc9ZIurxeUkBFg9SVkEAN94o7FpavF7U42
+	PKNHpXlHMUG7BuOV5PuRhKycPj7twPpeLDirtAlcGSLpL7WDU4pxp+BqECxwLywh/GjCPQTwIio
+	Rvm5PN5j6F23BvhX8e18/3HH4gFmnD6u4sDN6LryvTCH7nI2O5JeE3+aJEY/9ElHOeOH5lvmDNB
+	tdLbccnZtlG/L0S0DWVy2O9WCenOF1dpUDwl5MFiDhISM8Wm5ZAMo9AyHlNVfHXz0yMST2lX6jV
+	5QtYs2JMKLtf77ASobedAr4rOeIBTYfZXSlIOG9aLFniXP+dZI+r4JQv/QF8OmG7ev1KysSdFQK
+	ml2lSJlnRc4AIK7tvE7bdoab/e7U5uZpGHAHHiTVrh5elQFaH51B7sAG+AIvqLyRR5yvBlgUxsG
+	mfAWAGfpG3b/m/FCsTmFqTfSdrl0RM0hZdv5XmI30uRLZGiaW5scyVse4+Yu3zdUFjAt0JzV5aI
+	VjhTyAqTZDuWHbo+zpVFfC7DekpEx2PnyZBhSdk8IEtQ8HJD6O2tws73YBreGX5t/fQKqw==
+X-Received: by 2002:a05:6000:24c3:b0:4a4:368:409d with SMTP id ffacd0b85a97d-4abaa9769d3mr7118563f8f.3.1795183558599;
+        Fri, 20 Nov 2026 06:05:58 -0800 (PST)
+Received: from localhost ([130.192.98.149])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab658e2d1bsm6110394f8f.8.2026.11.20.06.05.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Nov 2026 06:05:57 -0800 (PST)
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -97,54 +86,396 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=9e5986ede954feecad11ad001d02150c5a356196d013aeccc838f4a9c70a;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Fri, 20 Nov 2026 15:05:53 +0100
+Message-Id: <DN03GJ80ZWNZ.9GM35HM4T48N@gmail.com>
+To: "Amir Goldstein" <amir73il@gmail.com>, "koraynilay"
+ <koray.fra@gmail.com>
+Cc: "David Sterba" <dsterba@suse.com>, "Namjae Jeon"
+ <linkinjeon@kernel.org>, "Sungjong Seo" <sj1557.seo@samsung.com>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner"
+ <brauner@kernel.org>, "Trond Myklebust" <trondmy@kernel.org>, "Anna
+ Schumaker" <anna@kernel.org>, "Chuck Lever" <cel@kernel.org>, "Jeff Layton"
+ <jlayton@kernel.org>, "Konstantin Komarov"
+ <almaz.alexandrovich@paragon-software.com>, "Paulo Alcantara"
+ <pc@manguebit.org>, "Chris Mason" <mason@kernel.org>, "Yuezhang Mo"
+ <yuezhang.mo@sony.com>, "Jan Kara" <jack@suse.cz>, "NeilBrown"
+ <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo"
+ <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>, "Ronnie Sahlberg"
+ <ronniesahlberg@gmail.com>, "Shyam Prasad N" <sprasad@microsoft.com>,
+ "Bharath SM" <bharathsm@microsoft.com>, "Sergey Senozhatsky"
+ <senozhatsky@chromium.org>, "ChenXiaoSong" <chenxiaosong@chenxiaosong.com>,
+ "Darrick J . Wong" <djwong@kernel.org>, "Sean Smith"
+ <defendthedisabled@gmail.com>, "Andrey Albershteyn" <aalbersh@kernel.org>,
+ "Pedro Falcato" <pfalcato@suse.de>, =?utf-8?q?Pali_Roh=C3=A1r?=
+ <pali@kernel.org>, <linux-btrfs@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <exfat@lists.linux.dev>, <ntfs3@lists.linux.dev>,
+ <linux-cifs@vger.kernel.org>, <linux-nfs@vger.kernel.org>,
+ <linux-api@vger.kernel.org>, "Miklos Szeredi" <miklos@szeredi.hu>
+Subject: Re: [RFC PATCH v4 10/10] cifs: add provenance time (ptime) and map
+ it to SMB's CreationTime
+From: "koraynilay" <koray.fra@gmail.com>
+X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+References: <20261115180343.576773-1-koray.fra@gmail.com>
+ <20261115180343.576773-11-koray.fra@gmail.com>
+ <CAOQ4uxg2gpC99ohuvKm-SgPzuffJy1fSvXorbuBnYZ=OFSxT3w@mail.gmail.com>
+ <DMZIZ05H7MMB.1WYNR4X44BPGR@gmail.com>
+ <CAOQ4uxg8aVcWyNiFDk8djdn-M3xJcu_7-kRxVq9jjFsbcGp1ew@mail.gmail.com>
+In-Reply-To: <CAOQ4uxg8aVcWyNiFDk8djdn-M3xJcu_7-kRxVq9jjFsbcGp1ew@mail.gmail.com>
 
-From: Zhan Xusheng <zhanxusheng@xiaomi.com>
+--9e5986ede954feecad11ad001d02150c5a356196d013aeccc838f4a9c70a
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-When ntfs_iomap_begin() allocates clusters in a hole, the part of a new
-cluster that the request does not write keeps the old disk contents,
-and reads below the valid size return it.  The iomap conversion asked
-attr_data_get_block() to zero such clusters only for writes through the
-page cache, and commit 10d7c95af043 ("fs/ntfs3: add delayed-allocation
-(delalloc) support") stopped asking for it at all.  Only the delalloc
-path still zeroes them.
+On Fri Nov 20, 2026 at 7:34 AM CET, Amir Goldstein wrote:
+> On Thu, Nov 19, 2026 at 11:02=E2=80=AFPM koraynilay <koray.fra@gmail.com>=
+ wrote:
+>>
+>> On Thu Nov 19, 2026 at 7:32 PM CET, Amir Goldstein wrote:
+>> > On Sun, Nov 15, 2026 at 7:04=E2=80=AFPM koraynilay <koray.fra@gmail.co=
+m> wrote:
+>> >>
+>> >> Implement provenance time (ptime) in cifs, as introduced in a
+>> >> previous commit ("vfs: add provenance time (ptime)").
+>> >>
+>> >> Map it to SMB's CreationTime, making it settable from userspace and
+>> >> propagating it to the SMB server via FILE_BASIC_INFO.
+>> >>
+>> >> Support reading ptime via statx(2) and fileattr_get() from the cached
+>> >> CreationTime.
+>> >>
+>> >> Update cifs_fileattr_set() to check xflags instead of only legacy fla=
+gs
+>> >> and add the cifs_set_file_crtime() helper to wrap the RPC call to the
+>> >> SMB server.
+>> >>
+>> >> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.5.7
+>> >> Signed-off-by: koraynilay <koray.fra@gmail.com>
+>> >> ---
+>> >>  fs/smb/client/cifsfs.c |   8 +++
+>> >>  fs/smb/client/inode.c  |   7 ++-
+>> >>  fs/smb/client/ioctl.c  | 109 ++++++++++++++++++++++++++++++---------=
+--
+>> >>  3 files changed, 94 insertions(+), 30 deletions(-)
+>> >>
+>> >> diff --git a/fs/smb/client/cifsfs.c b/fs/smb/client/cifsfs.c
+>> >> index 8cff7857b450..c2f557e406d3 100644
+>> >> --- a/fs/smb/client/cifsfs.c
+>> >> +++ b/fs/smb/client/cifsfs.c
+>> >> @@ -1307,6 +1307,14 @@ int cifs_fileattr_get(struct dentry *dentry, s=
+truct file_kattr *fa)
+>> >>         if (READ_ONCE(CIFS_I(inode)->cifsAttrs) & ATTR_COMPRESSED)
+>> >>                 fa->flags |=3D FS_COMPR_FL;
+>> >>
+>> >> +       /* Report provenance time (ptime) to userspace */
+>> >> +       if (CIFS_I(inode)->createtime) {
+>> >> +               fa->fsx_xflags |=3D FS_XFLAG_PTIME;
+>> >> +               fa->fsx_xflags_mask |=3D FS_XFLAG_PTIME;
+>> >> +               fa->fsx_ptime =3D
+>> >> +                     cifs_NTtimeToUnix(cpu_to_le64(CIFS_I(inode)->cr=
+eatetime));
+>> >> +       }
+>> >> +
+>> >>         /*
+>> >>          * FS_CASEFOLD_FL is defined by UAPI as a folder attribute,
+>> >>          * and userspace tools (e.g., lsattr) display it only on
+>> >> diff --git a/fs/smb/client/inode.c b/fs/smb/client/inode.c
+>> >> index 2647785ec1e4..f0b20a72b9c2 100644
+>> >> --- a/fs/smb/client/inode.c
+>> >> +++ b/fs/smb/client/inode.c
+>> >> @@ -222,6 +222,7 @@ cifs_fattr_to_inode(struct inode *inode, struct c=
+ifs_fattr *fattr,
+>> >>
+>> >>         cifs_i->cifsAttrs =3D fattr->cf_cifsattrs;
+>> >>         cifs_i->reparse_tag =3D fattr->cf_cifstag;
+>> >> +       cifs_i->createtime =3D fattr->cf_createtime;
+>> >>
+>> >>         if (fattr->cf_flags & CIFS_FATTR_NEED_REVAL)
+>> >>                 cifs_i->time =3D 0;
+>> >> @@ -2958,7 +2959,8 @@ int cifs_getattr(const struct mnt_idmap *idmap,=
+ const struct path *path,
+>> >>          * We need to be sure that all dirty pages are written and th=
+e server
+>> >>          * has actual ctime, mtime and file length.
+>> >>          */
+>> >> -       if ((request_mask & (STATX_CTIME | STATX_MTIME | STATX_SIZE |=
+ STATX_BLOCKS)) &&
+>> >> +       if ((request_mask & (STATX_CTIME | STATX_MTIME | STATX_PTIME
+>> >> +                            | STATX_SIZE | STATX_BLOCKS)) &&
+>> >>             !CIFS_CACHE_READ(CIFS_I(inode)) &&
+>> >>             inode->i_mapping && inode->i_mapping->nrpages !=3D 0) {
+>> >>                 rc =3D filemap_fdatawait(inode->i_mapping);
+>> >> @@ -2992,6 +2994,9 @@ int cifs_getattr(const struct mnt_idmap *idmap,=
+ const struct path *path,
+>> >>                 stat->result_mask |=3D STATX_BTIME;
+>> >>                 stat->btime =3D
+>> >>                       cifs_NTtimeToUnix(cpu_to_le64(CIFS_I(inode)->cr=
+eatetime));
+>> >> +               stat->result_mask |=3D STATX_PTIME;
+>> >> +               stat->ptime =3D
+>> >> +                     cifs_NTtimeToUnix(cpu_to_le64(CIFS_I(inode)->cr=
+eatetime));
+>> >>         }
+>> >>
+>> >>         stat->attributes_mask |=3D (STATX_ATTR_COMPRESSED | STATX_ATT=
+R_ENCRYPTED);
+>> >> diff --git a/fs/smb/client/ioctl.c b/fs/smb/client/ioctl.c
+>> >> index bb8808289a46..19a9556d39b4 100644
+>> >> --- a/fs/smb/client/ioctl.c
+>> >> +++ b/fs/smb/client/ioctl.c
+>> >> @@ -181,6 +181,41 @@ static int cifs_set_compression(unsigned int xid=
+, struct dentry *dentry,
+>> >>                                             compression_state);
+>> >>  }
+>> >>
+>> >> +static int cifs_set_file_crtime(unsigned int xid, struct dentry *den=
+try,
+>> >> +                               struct cifs_tcon *tcon, u64 crtime)
+>> >> +{
+>> >> +       struct inode *inode =3D d_inode(dentry);
+>> >> +       struct TCP_Server_Info *server =3D tcon->ses->server;
+>> >> +       FILE_BASIC_INFO info_buf =3D {};
+>> >> +       const char *full_path;
+>> >> +       void *page;
+>> >> +       int rc;
+>> >> +
+>> >> +       if (!server->ops->set_file_info)
+>> >> +               return -EOPNOTSUPP;
+>> >> +
+>> >> +       info_buf.CreationTime =3D cpu_to_le64(crtime);
+>> >> +
+>> >> +       page =3D alloc_dentry_path();
+>> >> +       full_path =3D build_path_from_dentry(dentry, page);
+>> >> +       if (IS_ERR(full_path)) {
+>> >> +               rc =3D PTR_ERR(full_path);
+>> >> +               goto out;
+>> >> +       }
+>> >> +
+>> >> +       rc =3D server->ops->set_file_info(inode, full_path, &info_buf=
+, xid);
+>> >> +       if (rc =3D=3D 0) {
+>> >> +               CIFS_I(inode)->createtime =3D crtime;
+>> >> +               CIFS_I(inode)->time =3D 0;
+>> >> +               inode_set_ctime_current(inode);
+>> >> +       }
+>> >> +
+>> >> +out:
+>> >> +       free_dentry_path(page);
+>> >> +       return rc;
+>> >> +}
+>> >> +
+>> >> +#define CIFS_SUPPORTED_XFLAGS (FS_XFLAG_PTIME)
+>> >>  int cifs_fileattr_set(const struct mnt_idmap *idmap, struct dentry *=
+dentry,
+>> >>                       struct file_kattr *fa)
+>> >>  {
+>> >> @@ -193,49 +228,65 @@ int cifs_fileattr_set(const struct mnt_idmap *i=
+dmap, struct dentry *dentry,
+>> >>         bool enable_compression;
+>> >>         struct cifs_tcon *tcon;
+>> >>         unsigned int xid;
+>> >> -       int rc;
+>> >> +       int rc =3D 0;
+>> >>
+>> >> -       if (!fa->flags_valid)
+>> >> +       if (fileattr_has_fsx_mask(fa, CIFS_SUPPORTED_XFLAGS))
+>> >>                 return -EOPNOTSUPP;
+>> >
+>> > What is this supposed to check that is not already checked
+>> > explicitly with fsx_xflags_mask below?
+>>
+>> It should work for FS_IOC_FSSETXATTR, where mask is 0... but it's also
+>> there because when I started writing the various filesystems code I
+>> hadn't added _mask yet, so I'll need to take a little step back and
+>> revisit.
+>>
+>
+> Yes, I see.
+> I think the helper may still have value for fs that still parse the
+> two types of flags.
 
-On a volume with 64K clusters, write 4K at 0 and at 960K into a sparse
-file, then 4K at 512K: 61440 bytes of the file read back old disk
-contents, both with O_DIRECT and with a buffered write on a volume
-mounted without delalloc.
+Yeah maybe, I'll see after I the first vfs-only patch I think.
 
-Zero the new clusters when the request does not cover them.
+> To reduce the scope of your patch set this may be better.
+>
+>> >>
+>> >> -       /*
+>> >> -        * chattr writes back all flags returned by fileattr_get(). A=
+ccept
+>> >> -        * FS_CASEFOLD_FL only when it reflects the share's casefold =
+state.
+>> >> -        */
+>> >> -       if (fa->flags & FS_CASEFOLD_FL) {
+>> >> -               rc =3D cifs_fileattr_get(dentry, &current_fa);
+>> >> -               if (rc)
+>> >> -                       return rc;
+>> >> -               if (current_fa.flags & FS_CASEFOLD_FL)
+>> >> -                       allowed |=3D FS_CASEFOLD_FL;
+>> >> -       }
+>> >> -       if (fa->flags & ~allowed)
+>> >> +       if (fa->fsx_xflags_mask & ~CIFS_SUPPORTED_XFLAGS)
+>> >>                 return -EOPNOTSUPP;
+>> >>
+>> >> -       enable_compression =3D fa->flags & FS_COMPR_FL;
+>> >> -       compression_state =3D enable_compression ? COMPRESSION_FORMAT=
+_DEFAULT :
+>> >> -                                                COMPRESSION_FORMAT_N=
+ONE;
+>> >> +       if (fa->flags_valid) {
+>> >> +               /*
+>> >> +                * chattr writes back all flags returned by fileattr_=
+get(). Accept
+>> >> +                * FS_CASEFOLD_FL only when it reflects the share's c=
+asefold state.
+>> >> +                */
+>> >> +               if (fa->flags & FS_CASEFOLD_FL) {
+>> >> +                       rc =3D cifs_fileattr_get(dentry, &current_fa)=
+;
+>> >> +                       if (rc)
+>> >> +                               return rc;
+>> >> +                       if (current_fa.flags & FS_CASEFOLD_FL)
+>> >> +                               allowed |=3D FS_CASEFOLD_FL;
+>> >> +               }
+>> >> +               if (fa->flags & ~allowed)
+>> >> +                       return -EOPNOTSUPP;
+>> >
+>> > This whole mess could be sorted out by switching the cifs
+>> > implementation to the new API
+>>
+>> ("new API" you mean _mask right?)
+>>
+>
+> Yes and ro_mask, but it probably also means converting all the
+> read-only CASEFOLD fs to new api, so that FS_XFLAG_CASEFOLD
+> could be taken out of FS_XFLAG_RDONLY_MASK
 
-Fixes: 099ef9ab9203 ("fs/ntfs3: implement iomap-based file operations")
-Fixes: 10d7c95af043 ("fs/ntfs3: add delayed-allocation (delalloc) support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
----
-With 4K clusters a page covers a whole cluster, so only 64K clusters
-show it in these tests.  With both patches, fsx with mmap on 4K and 64K
-cluster volumes and on sparse and compressed files gives the same
-results as before.
+Can all flags currently in FS_XFLAG_RDONLY_MASK be rw for some
+filesystems or only some?
+Should they all be removed from FS_XFLAG_RDONLY_MASK and left to each
+filesystem to define them as ro (to put in _ro_mask)?
 
- fs/ntfs3/inode.c | 4 ++++
- 1 file changed, 4 insertions(+)
+>> > and implementing a generic vfs
+>> > helper which does something like the above code to handle the
+>> > old ioctls.
+>> > FS_XFLAG_CASEFOLD would then be removed from
+>> > FS_XFLAG_RDONLY_MASK and set explicitly in xflags_ro_mask
+>> > by fs which don't allow to set if (e.g. nfs) and added to
+>> > FS_COMMON_FL/FS_XFLAG_COMMON
+>> >
+>> > cifs would advertise FS_XFLAG_CASEFOLD in its ro_mask
+>> > and then the generic helper would mask it and the new syscall
+>> > will not allow it.
+>> >
+>> >> +       }
+>> >> [...]
+>> >> +               cifs_dbg(FYI, "set compress flag rc %d\n", rc);
+>> >
+>> > I think that the roadmap should be to slowly define all the old FS_*_F=
+L
+>> > flags as FS_XFLAGS_* and let the generic helpers deal with the convers=
+ion.
+>>
+>> > But it is not so hard to convert one filesystem at a time in a way tha=
+t
+>> > fa->fsx_valid will have to be true, because, for example, here
+>> > all the relevant flags would be supported by the new xflags API.
+>>
+>> So, something like what fileattr_fill_{x,}flags() do now, but for
+>> file_attr_to_fileattr()?
+>>
+>
+> Yes, something like this (maybe)
+>
+>  void fileattr_fill_flags(struct file_kattr *fa, u32 flags)
+>  {
+>         fa->flags_valid =3D true;
+> +       fa->fsx_valid =3D !(flags & ~FS_COMMON_FL);
+> +       fa->fsx_xflags_mask =3D FS_XFLAG_COMMON;
+>         fa->flags =3D flags;
 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index 535a2b0804af..9c2ded9567f7 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -982,6 +982,10 @@ static int ntfs_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
- 	 */
- 	no_da = flags == (IOMAP_DIRECT | IOMAP_WRITE) || srcmap == WB_NO_DA;
- 
-+	/* The request does not write all of a new cluster: zero it first. */
-+	if (rw && ((offset | endbyte) & sbi->cluster_mask))
-+		zero = true;
-+
- 	err = attr_data_get_block(ni, vcn, clen_max, &lcn, &clen,
- 				  rw ? &new_clst : NULL, zero, &res, no_da);
- 
--- 
-2.43.0
+So, for the filesystems that switch to the new API, these new/changed
+helpers should handle giving userspace the legacy FS_*_FL flags (if
+userspace uses FS_IOC_GETFLAGS) by converting them from the FS_XFLAG_*
+reported by the filesystem?
 
+But did you write this
+> +       fa->fsx_valid =3D !(flags & ~FS_COMMON_FL);
+> +       fa->fsx_xflags_mask =3D FS_XFLAG_COMMON;
+while thinking about FS_IOC_SETFLAGS, so from userspace to filesystem,
+and this would be needed because that filesystem wouldn't know what
+FS_*_FL are, so it will use the _mask and the converted xflags?
+
+But why the opposite of (flags & ~FS_COMMON_FL) as fsx_valid?
+
+Why fsx_valid =3D 0 if the passed flags also contain non-FS_COMMON_FL
+flags and fsx_valid =3D 1 if the passed flags contain only FS_COMMON_FL
+flags?
+(if I understood correctly)
+
+> But in this model FS_XFLAG_COMMON are only the ones that
+> are mutable from the old ioctl.
+>
+> We would need to define FS_READONLY_FL to deal with the
+> group of read-only legacy flags, if some fs needs them and wants
+> to use the new API.
+
+So the those filesystems can put it in _ro_mask on GET you mean?
+
+>> > No need to do that now, as part of this patch set which is complicated
+>> > enough, just need to see the road ahead of us that we have a way
+>> > forward out of this messy flags_valid/fsx_valid inside filesystem
+>> > implementations.
+>>
+>> I think it's probably better to clean up the API now, before introducing
+>> new flags (like FS_XFLAG_BTIME/PTIME or the shared extent one in the
+>> other thread) and as I'll say in that reply (I'll write it in a bit) I
+>> think it's even better to first split the _mask changes into their own
+>> RFC PATCH series, then have a separate one for ptime/btime.
+>>
+>
+> Agree.
+>
+> It's even two different changes -
+> The vfs internal _mask change and the UAPI _mask change.
+> chattr -p implementation with new API would be the perfect
+> champion to drive this UAPI change IMO.
+
+Ah, right, they could even be made in 2 separate patches but it's
+probably better to keep both in only one, since otherwise there would
+need to be temporary vfs functions to convert xflags to xflags_mask and
+back.
+
+>> > My understanding is that Miklos introduced those hints to reduce the
+>> > work needed per filesystem for the initial implementation of the
+>> > vfs methods.
+>>
+>> Ah yeah that would make sense.
+>>
+>
+> BTW the trigger for the vfs interface was ovl_copy_fileattr()
+> so this is a user of the new vfs _mask API that we need to
+> pay attention to.
+
+Ah ok, I'll look into that too then.
+
+> Thanks,
+> Amir.
+
+
+
+--9e5986ede954feecad11ad001d02150c5a356196d013aeccc838f4a9c70a
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRJ2XvJtXGwULYEerQ0bnTtJTDoOAUCawBTwQAKCRA0bnTtJTDo
+OAhLAQD6MiOLbbybL5wy9alM14eREvB1XFf4dJYhOSWBa9LYCQD+OXKSMpjBKzE6
+Qide56j5p8y/OESAy2MNJBjIhpYtBQU=
+=hD6S
+-----END PGP SIGNATURE-----
+
+--9e5986ede954feecad11ad001d02150c5a356196d013aeccc838f4a9c70a--
