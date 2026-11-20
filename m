@@ -1,100 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.51
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795157157;
-	b=LOBrrvbmOOrG29rCqM97ztHjMs3qqLwMkXo1NDCz4gz1rMhB0od5ZlOGkRQNBHryvymC
-	 jda2IuZ0Y6Jtp+HHFlthLwXMQN6XeShebgSEnRMlf8XuDeLPp2SfyhZufE92z0a86J8hS
-	 lmtW01uXR/BaZJJZIrxigF87FpuPzw0NPUhp4C+TrSvlq4cmXSoBfMPRW5gbAjWu0evYz
-	 gmNPDPgxXWFZRD280DGerBvFMLEVHy8awVZaYqFOd/gsYGU0plCxsj5ByA5Q4LtqqfHAb
-	 k1YrHKyMnU2QbpdNh/018GpxlXg4KUT13ISxYdWQvltQ+tZZBTtfeM8h9BJuNz76qUw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795157157;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795181032;
+	b=CDC8H6b4D+1SjjNXsLjaZ4wKWF95qZPy+upP2TT3+gff9o9HOCG0Pjt7NZnCRtMSFWh3
+	 hkduzKXIoDmAKwYM+vweuWUn+FHCcALBpP406WhUWAVCfnwZzzxutWJxneMGlKhj3mvxy
+	 rspUFB8IFHC9QnUeGY0ESIps/IfuesbK7SGqQ55NO6b3uSwVLSt7CK35l+7hO3K/cuoqt
+	 pgHlh5yzwLmk1BqxWaN08Qy81Pi7eENRbZdQpBKbN/CxFAjghll6n5Yrm+Xrn6UpHSjHm
+	 +gRT93pFATV5VMWn4s5Og535PkaoCAdlmdqt0zVX9mpdqE2ZOZ4TX3kcrnjkRCK+f6Q==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795181032;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=PhesRb2fJL2sv3VQKNbTEK9VdI6Zm/OpjPUoDzeKyOI=;
-	b=EkmEQq1IvwdZG3ETeF5wFXZBHDOHxcH9Mw8elu1NvfdgLRWmNmaYwGtAnvLTtHJzbXnJ
-	 uVrhRy3uqH5e1Jw1s7uaCDRar4xOw08YIWN7vANJddAfNYWCWhn1EFIeFbCH0+LFV5G1D
-	 kk8kCDrJFc64dGMfEhA+Bp7oJ1ar8DkSG5goxSUhftVQLIAZD1hrszZJv0nPJla9nfSsD
-	 nUmn1u4dyqznIVe4x0hEv9vhtKOBG07a5tq3AK49LtlB1q9fqKVYL6CHNSQxOsh7PMRnM
-	 KpC4k5VaL2YxArfTt/3RyjWP4zhtPB+I3o4vRmh/jG99Lbg8h0FfzM1eIf6HdjYT6BQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:X-Mailer:
+	 References:In-Reply-To;
+	bh=U9t5C73ir3/3QySglAwAwVOJ69q66296+82EjWEvxrc=;
+	b=IJhB2lbN/vMs1G37g9Yhl69h7pSk7jO+vW8ykxmVOry1z6tJeQd2Vv0xEfAbEUwB0VOO
+	 /3xRxKpMV4DFOSOQ584wiSQWD3kEIdAG6/IvRwBisrXh2dwblOkonD5EfcMSljE45cJcJ
+	 Yh0ejEw3zbIpeQYn7qNGLadUtRFyeDgucCj4U4yECU1EYtD8Qgwcw1eKyS+1RW6ugjG6h
+	 2YNdMHha81smusmjSp97sTT6JiQinYsnHz/SlxGGRLUjnZQymBb6zMtESbm++i+x+foga
+	 L2NGq1iW2EDDN96f2R6ckvf+segXA8CgXe8phc8d4ldUefb3n6uEvTzBJkw9Mx+GooQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=toH5jAAP;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.51
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Pg2c1J0Q;
+	arc=none smtp.remote-ip=209.85.128.49
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD33606A331
-	for <ntfs3@lists.linux.dev>; Fri, 20 Nov 2026 06:45:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CDD33606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E23060A2612
+	for <ntfs3@lists.linux.dev>; Fri, 20 Nov 2026 13:23:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E23060A2612
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=toH5jAAP
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6ba38c41804so540015a12.3
-        for <ntfs3@lists.linux.dev>; Thu, 19 Nov 2026 22:45:56 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795157155; cv=none;
-        d=google.com; s=arc-20260327;
-        b=f39k/Y0FCbwsYcFvQGV72BTq01hNQ8RnIVnu11D4WNc04j4B2bToq5NV3dJW9uV3ii
-         9j7tXP7REJN/7Jrkdoj78DgO5EFVetXMTg4Dj79nQ9GeFe+wcDtq1cQJ8AgEw2o1dtZ6
-         ZtYgecKEyVQX8DKHNwHAd5kHrjaXblcvP4bfOzKee7Z5WFF9fzpmVA3mSVuVwb/Y8qjk
-         5P626N8ETBKB4HJTYcTNPPSEIlECvtOBxGWg3WWNVnzWKk9cKVocucZdd36mg20TRil1
-         tg9u/udVAjHAQctEYS0PCYEDpfmaaksscqpkkf4Ari4bYc6nZhnwS4C9Fcn9zVWm1Xi0
-         GuuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=PhesRb2fJL2sv3VQKNbTEK9VdI6Zm/OpjPUoDzeKyOI=;
-        fh=u8Fop3YAAhpLe7NXlbbybl1wMIlu7ehZmfyeqmVKZyo=;
-        b=b4lZ7xtkfMMj0Rgr6guOP2KeOZeYc8YVo40KCQ+GfCkR1bPROJEqHeFxHj1jUL3hnL
-         7EiCpABbC8hSbMvU13IGUO3j5AvFyOdaFzwHzlbtTcMIUxWBnAaaKeztEcvG4LUqEbgn
-         yg5zK+YO/L742SUeyIAu03z95xj7/zLGo+Gd6P3ONrHh8JPyxnF0c/3JPrAf/+k6an/J
-         GbPMF5MOXYZPrQePijm8+4bABbmt/9rr/DOOD87aDpe98TYv9//vELCDG8J3Ed0yGmF8
-         1ZMx8Tl5I3vnKDZzdJ1T1AcVW1pu4fLRDWFTVgvcfQJh26xyC4M9hnjBx9GNqH0sZW9D
-         uR2w==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Pg2c1J0Q
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a35ac4475dso6348875e9.2
+        for <ntfs3@lists.linux.dev>; Fri, 20 Nov 2026 05:23:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795157155; x=1795761955; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=PhesRb2fJL2sv3VQKNbTEK9VdI6Zm/OpjPUoDzeKyOI=;
-        b=toH5jAAPZt5oo3bcDUwwGmTatz1nXmfKELCz6DZxrJJ+TU4eu3ZwmR+w7Mc1kJ6uJf
-         +HOcGEklBAEypT9UEZwN6W4o8NjIqGgshtvti9jwi5rbfOTqPUw/IaB1cQUB0zhstpmm
-         SXPTaoUtwydWgpk/t2wdYj+NPO9gAYlib18+p5bQVG2VzvazaVwQcI96XY+ZubaukLdb
-         mNkdmAknF0DVW5i8KK1FNWqYQzIr4WV/pRJDDpmSTksdiwQIGJ8cG7/OYJ/3662UKCpv
-         UaRHri52LJpEUp0Mnk5FjJo9soEcZ+tzxwLhz6bZtDX/o54z2/HiCgSg6Qa7/ncxw2S1
-         IVcA==
+        d=gmail.com; s=20260707; t=1795181031; x=1795785831; darn=lists.linux.dev;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-type:mime-version:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=U9t5C73ir3/3QySglAwAwVOJ69q66296+82EjWEvxrc=;
+        b=Pg2c1J0QcAdNwMMVBdoNBwOZgWeASog0U/+WXWRzEpQ61o3k9JmD+Vchr99Uz0YKW0
+         wp0zLMOYI3VD1zUZGIIFWVEj5kH4W2yrwJUXE10nlK8s5Bm+4RH7m0IC8rUCJmeQUt/x
+         ZYtx0Z1FHD38JZ+KCs5JjbGex9ObyrMsQyGkCUqwex5s4RqlJ/XGIabrIlW9OXeSnKFu
+         9fGyC55LP3HZQyYOtWBbvkwpseFLnaU3OTWtIO/OSrx5DgF3OG2RkWP9tg5Gdt0miJZ9
+         3J94IPLEx4dRRTpwWSmf9Bo0ZCMRWz74jgRpTdALug0eVRHmWuSEKUeLGtphbXdkzpRf
+         P7xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795157155; x=1795761955;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=PhesRb2fJL2sv3VQKNbTEK9VdI6Zm/OpjPUoDzeKyOI=;
-        b=sNyUPiy4tP8Zox6LZ++f4UZc5pDQV/BEuoCTnLjlceZIn0DfAb2AurCDNbWMMNBL+z
-         bA49rD8RkZarAZ/FJVAwhORNiD3mXCgoQWtF7DG69RcOAeAd/R9L8vLtxn2At0+ZhBhl
-         rno+XF8vl7xQuRwy9FlAPvpW5PZ6UyYrhft8saIj75k1McjAgG5Gm/Q7TAPvLqKOOJNo
-         4+pseRcJOTTFvhkuM/xcee9Ubzj1I9LZHlmJM0kltNStJjp7YhvLLAOmjOgzR6UUsW2O
-         x42Y1dlIH/FQSahBXB/mLbV7XXudQvm+TURz4GlILWgEUCKhjCEGBEWeGxa9p/isHh3s
-         NddA==
-X-Forwarded-Encrypted: i=1; AL+hErFEVnHsMBvUSA2G5gx2lDpjcEaunHfjTurem0BHdpCQylzLYCHqXQnZ/MXbabTOwaJvGSmdhg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9BkNo2Gh7/BMHD9OB1M3A8AUakAyOj4uDkA5I8NiXxj2AARt0V
-	CMZuJtHOexuN8jxTtga1FxKGUkAXE1xB2zekXpVgoeEMYFSS7si+iV8FRs3jpXQDRln7zzXW3It
-	FhRnqMTAqEF7KxfV7/hEEsJW115Qdo4Q=
-X-Gm-Gg: AZFdTZfpGlU+1CpP1GZhVsVrdeJYeA+w72TCnEYtkvUod4RCWqEOXMfYB5aFk8ncVml
-	waXmPlm1MlF3T/Dwuh3YK2WphOwZraetd82sbUHEgpY242xm5kzUA/U3PkobBlv8Q/2fzoaBdGV
-	7qjFvisKk4jA0ikDsOpMnZBK5kEsVGU4+rQg0oMaPsLg08zYzuwNjkxH+QneC5zy7PwgKQ2Q9rd
-	+dciDP8qosOaCFe3a9H1PDKQmJTCQgRJVFZK+9rQNxZDCfWpFbq1onDuD6dZkHI9kj5T/A5/vpA
-	00z0pNzB+XQ7yFARWhJ8oINx9XgUHxiDqw0Z7GznXiTan2xWGQ17zdwn7rEAUTHAlwspqaalxUU
-	z8v3k+JEUe0OYhIwK2yU3juMo5XdOmvM/rvlYaSOe0NBbVH1VBwPmDiurHfqMEqg0eVty3w==
-X-Received: by 2002:a05:6402:a592:10b0:6b8:8706:8e91 with SMTP id
- 4fb4d7f45d1cf-6ba37d6526dmr960183a12.12.1795157154882; Thu, 19 Nov 2026
- 22:45:54 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795181031; x=1795785831;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=U9t5C73ir3/3QySglAwAwVOJ69q66296+82EjWEvxrc=;
+        b=eZz9qh+VR1j+2OXqWROpTdCol212os/HL5J0mMR/aT5sRV/3LyrT7NcdRnWpdb0vjb
+         J60NXlAh1k84UT7JafnN05RqiRoK/1P5KBmkvLlHl50zVtMRbfoVNSXtaujZ0r+5UTSF
+         3EtEyV5HkDsWuxD80qIKf9/M0epNJZFEu+WppMtXEnfVwPfOv2tYHkbJ1tBx09IMfmix
+         kC90kwaUJfIR7iik80//VoJYZpULPYEnmZSOebufaBCkXtPwhV/QmjupoW1w402No+tc
+         L3e6L6cfxwUmuMqnO4eJGhmdSyNQZ01ilaNREB2wJ3MC1ZcXkDFArgPvwVONiWMp1Dy6
+         TzZQ==
+X-Forwarded-Encrypted: i=1; AL+hErEzmoavJbdWr8eBdYa0trQF9ufxpEKhw7Foe3wA/YjyoucNbXm0vzMl34cM8rOp7vOCLmC6DQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8etH22ljddA104cEqoz4UoHL51BS82uUZB0waL1iTR1m+qYzRE
+	F+WxBZOeKoiXV17RGcEF1n8wmniY/tPEiUaG7kVc5dIiqcxKzz7cIly7
+X-Gm-Gg: AYBFou1bTHbhaV0Ew6FDnglK41boJe63ihGWbk2H0mqOYUOBBpfzqZgpV6uZ2NjtnON
+	tkOnAc/Nm7bQk9iDgqHSdS9B4ScnShTBuSeNjKzg5JRj76vaNgrkqR+P0xygsDqoqlZoF39p4+z
+	D8anKm9uyL4e3Oi2tXQkx58SmrzPRQW73G3zBJh9NI6pDubNh1bPRpT3fYVIIUsUBAQ5WQIzNnw
+	iGlCBnP/rxmIgH9Y8GPXGKf34yB3/fQO/MDUMBnfn0kROcMpHBkcMCK59GTXSP1hhEGMI+MynBK
+	XOweVRBym4XsUDTw5AYgeS+yscKjIb5j3tKRVPcrfmzTh0fsYgH+Cdh2wiaOi2xXMmi6fiZlnLz
+	QCyeGN2DqnJcBPS8Ic/Jl6h7jEpkKq9Auq0HxMWNUE+R+5I5TJGP1zXC3qbv3cy55oDx4d9EgG/
+	yHh0tP84+dKhy5DiLl41CP/x9zNPB1AZ6qRIHlGg6PgtEsaLH99owMs/lxBLHTyzox3KVtHEJHp
+	uD3X0vp0sdqsOPmYK6C0dnM22Uc5zmxrAFk1DTGlQjYDgTYgplQf79bcJy0gS64SKhn5iEhm27h
+	PscpBic8xbXqmzBkwNWNmtK/Kms33CCf2Z91Z6NXMowkCSn1
+X-Received: by 2002:a05:600c:3b83:b0:4b7:6b96:e431 with SMTP id 5b1f17b1804b1-4bb88822242mr75040685e9.28.1795181030668;
+        Fri, 20 Nov 2026 05:23:50 -0800 (PST)
+Received: from localhost ([130.192.98.149])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab65cb41f4sm5518234f8f.7.2026.11.20.05.23.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Nov 2026 05:23:49 -0800 (PST)
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -103,355 +86,151 @@ List-Subscribe: <mailto:ntfs3+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-References: <20261115180343.576773-1-koray.fra@gmail.com> <20261115180343.576773-9-koray.fra@gmail.com>
- <CAOQ4uxgoNsOH82FyrCxc+qSoid_CFmbmpL0qgWFw-e8E689fFA@mail.gmail.com> <DMZJ4PL1JVA4.2YEB7EPYJR5Q7@gmail.com>
-In-Reply-To: <DMZJ4PL1JVA4.2YEB7EPYJR5Q7@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Fri, 20 Nov 2026 07:45:43 +0100
-X-Gm-Features: AclHuK_wtO-xn2FdXS4_uzyRTAs2S8_YFxhSnFKIVmGgyyWPtzVK3ZO9hbfvgbU
-Message-ID: <CAOQ4uxi6h9BBP7pf4sR+gc2+4XtkEgbxXZha45iZzdB_wGFVgQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 08/10] nfs: add provenance time (ptime) via FATTR4_TIME_CREATE
-To: koraynilay <koray.fra@gmail.com>
-Cc: David Sterba <dsterba@suse.com>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Sungjong Seo <sj1557.seo@samsung.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Trond Myklebust <trondmy@kernel.org>, 
-	Anna Schumaker <anna@kernel.org>, Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	Paulo Alcantara <pc@manguebit.org>, Chris Mason <mason@kernel.org>, Yuezhang Mo <yuezhang.mo@sony.com>, 
-	Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, 
-	Bharath SM <bharathsm@microsoft.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	ChenXiaoSong <chenxiaosong@chenxiaosong.com>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Sean Smith <defendthedisabled@gmail.com>, Andrey Albershteyn <aalbersh@kernel.org>, 
-	Pedro Falcato <pfalcato@suse.de>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
-	linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, exfat@lists.linux.dev, ntfs3@lists.linux.dev, 
-	linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-api@vger.kernel.org, Theodore Tso <tytso@mit.edu>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=7e8bd4a9c12ebb9d8a66b83f0766d89a19a194b2b3f96510da164a6c43d9;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Fri, 20 Nov 2026 14:23:41 +0100
+Message-Id: <DN02K8EYWHSW.1FP154N0I9QCK@gmail.com>
+From: "koraynilay" <koray.fra@gmail.com>
+To: "Amir Goldstein" <amir73il@gmail.com>, "koraynilay"
+ <koray.fra@gmail.com>
+Cc: =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>, "David Sterba"
+ <dsterba@suse.com>, "Namjae Jeon" <linkinjeon@kernel.org>, "Sungjong Seo"
+ <sj1557.seo@samsung.com>, "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Trond Myklebust"
+ <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>, "Chuck Lever"
+ <cel@kernel.org>, "Jeff Layton" <jlayton@kernel.org>, "Konstantin Komarov"
+ <almaz.alexandrovich@paragon-software.com>, "Paulo Alcantara"
+ <pc@manguebit.org>, "Chris Mason" <mason@kernel.org>, "Yuezhang Mo"
+ <yuezhang.mo@sony.com>, "Jan Kara" <jack@suse.cz>, "NeilBrown"
+ <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo"
+ <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>, "Ronnie Sahlberg"
+ <ronniesahlberg@gmail.com>, "Shyam Prasad N" <sprasad@microsoft.com>,
+ "Bharath SM" <bharathsm@microsoft.com>, "Sergey Senozhatsky"
+ <senozhatsky@chromium.org>, "ChenXiaoSong" <chenxiaosong@chenxiaosong.com>,
+ "Darrick J . Wong" <djwong@kernel.org>, "Sean Smith"
+ <defendthedisabled@gmail.com>, "Andrey Albershteyn" <aalbersh@kernel.org>,
+ "Pedro Falcato" <pfalcato@suse.de>, <linux-btrfs@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <exfat@lists.linux.dev>, <ntfs3@lists.linux.dev>,
+ <linux-cifs@vger.kernel.org>, <linux-nfs@vger.kernel.org>,
+ <linux-api@vger.kernel.org>
+Subject: Re: [RFC PATCH v4 09/10] ksmbd: add provenance time (ptime) and map
+ it to CreationTime
+X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+References: <20261115180343.576773-1-koray.fra@gmail.com>
+ <20261115180343.576773-10-koray.fra@gmail.com>
+ <CAOQ4uxhjxp5sxYphWoB=8sgX3XHOv9zLVYf+8ZjYbS_gQDxO3w@mail.gmail.com>
+ <DMZIQG4U1NTH.2IN0S2YIWEYTG@gmail.com>
+ <20261119220936.mssmaixcorn2gzli@pali> <DMZJGB07CO56.IZ20OCGGH6C@gmail.com>
+ <CAOQ4uxhqgsh9ahJsX7C4YyZH2n_r8VwOe9X9jZwsKALCoYvyag@mail.gmail.com>
+In-Reply-To: <CAOQ4uxhqgsh9ahJsX7C4YyZH2n_r8VwOe9X9jZwsKALCoYvyag@mail.gmail.com>
+
+--7e8bd4a9c12ebb9d8a66b83f0766d89a19a194b2b3f96510da164a6c43d9
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, Nov 19, 2026 at 11:10=E2=80=AFPM koraynilay <koray.fra@gmail.com> w=
-rote:
+On Fri Nov 20, 2026 at 7:03 AM CET, Amir Goldstein wrote:
+> On Thu, Nov 19, 2026 at 11:25=E2=80=AFPM koraynilay <koray.fra@gmail.com>=
+ wrote:
+>>
+>> On Thu Nov 19, 2026 at 11:09 PM CET, Pali Roh=C3=A1r wrote:
+>> > On Thursday 19 November 2026 22:51:26 koraynilay wrote:
+>> >> On Thu Nov 19, 2026 at 6:34 PM CET, Amir Goldstein wrote:
+>> >> > On Sun, Nov 15, 2026 at 7:04=E2=80=AFPM koraynilay <koray.fra@gmail=
+.com> wrote:
+>> >> >>
+>> >> >> Implement provenance time (ptime) in ksmbd, as introduced in a
+>> >> >> previous commit ("vfs: add provenance time (ptime)").
+>> >> >>
+>> >> >> Map it to SMB's CreationTime, making it settable by SMB clients. W=
+hen
+>> >> >> reporting CreationTime to clients, prioritize ptime over da.create=
+_time
+>> >> >> memorized in the user.DOSATTRIB xattr.
+>> >> >
+>> >> > That doesn't sound like the right thing to do.
+>> >> >
+>> >> > If the server stored a CreationTime that client had set, you cannot
+>> >> > override this.
+>> >>
+>> >> Ah, yes, but how would we handle older files which get a custom
+>> >> CreationTime both before (in the xattr) and after (in ptime) a kernel
+>> >> upgrade?
+>> >
+>> > Just to note that this problem is already there. ksmbd can export for
+>> > example ntfs filesystem on removable disk. And this removable disk can
+>> > be connected to Windows machine which will always only touch
+>> > CreationTime and ignores xattr DOSATTRIB.
+>> >
+>> >> > When the client sets CreationTime, the server can decide if it can =
+and wants
+>> >> > (may be a policy decision) to store CreationTime in PTIME and not s=
+tore
+>> >> > it in user.DOSATTRIB.
+>> >>
+>> >> To fix the above problem we should probably keep storing it in both
+>> >> ptime and the xattr though.
+>> >
+>> > IMHO for a long term solution it is better to not have duplicated
+>> > information in xattr. Because duplicated information are going to be
+>> > out-of-sync. Windows NTFS driver will not update xattr DOSATTRIB.
+>>
+>> Yeah, to avoid out-of-sync issues is why I made ksmbd prefer ptime over
+>> the xattr's CreationTime.
+>>
+>> >
+>> > For me it looks like that this needs some policy / configuration
+>> > decision done by user. We do not know if the user will replug that dis=
+k
+>> > also to Windows NTFS driver (and then those xattr DOSATTRIB could caus=
+e
+>> > out-of-sync issues) or will only use it from Linux or Samba and then
+>> > xattr DOSATTRIB is probably fine.
+>>
+>> I'm not sure if this is the best solution, it doesn't feel too right
+>> to me, but maybe there isn't a better one.
+>>
 >
-> On Thu Nov 19, 2026 at 7:06 PM CET, Amir Goldstein wrote:
-> > On Sun, Nov 15, 2026 at 7:04=E2=80=AFPM koraynilay <koray.fra@gmail.com=
-> wrote:
-> >>
-> >> Implement provenance time (ptime) in the NFS client, as introduced in =
-a
-> >> previous commit ("vfs: add provenance time (ptime)").
-> >>
-> >> Support reading ptime via statx(2) and file_getattr(), returning the
-> >> cached creation time when the server advertises NFS_ATTR_FATTR_BTIME.
-> >>
-> >> Implement sending FATTR4_TIME_CREATE, asking the server to persist the
-> >> file creation time using ptime on the underlying filesystem.
-> >>
-> >> Also add .fileattr_set to struct nfs_rpc_ops and set it to
-> >> nfs4_fileattr_set() in nfs_v4_clientops. Provide a generic
-> >> nfs_fileattr_set() dispatcher so even symlinks can update ptime under
-> >> NFSv4 while cleanly returning -EOPNOTSUPP on NFSv2/v3.
-> >>
-> >> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.5.7
-> >> Signed-off-by: koraynilay <koray.fra@gmail.com>
-> >> ---
-> >>  fs/nfs/inode.c          | 27 ++++++++++++++++----
-> >>  fs/nfs/internal.h       |  2 ++
-> >>  fs/nfs/nfs4proc.c       | 56 ++++++++++++++++++++++++++++++++++++++--=
--
-> >>  fs/nfs/nfs4xdr.c        | 19 +++++++++-----
-> >>  fs/nfs/symlink.c        |  1 +
-> >>  include/linux/nfs_xdr.h |  3 +++
-> >>  6 files changed, 93 insertions(+), 15 deletions(-)
-> >>
-> >> diff --git a/fs/nfs/inode.c b/fs/nfs/inode.c
-> >> index e0a2e92952af..2ddcfd872616 100644
-> >> --- a/fs/nfs/inode.c
-> >> +++ b/fs/nfs/inode.c
-> >> @@ -955,7 +955,7 @@ static u32 nfs_get_valid_attrmask(struct inode *in=
-ode)
-> >>                 reply_mask |=3D STATX_BLOCKS;
-> >>         if (!(cache_validity & NFS_INO_INVALID_BTIME) &&
-> >>             (fattr_valid & NFS_ATTR_FATTR_BTIME))
-> >> -               reply_mask |=3D STATX_BTIME;
-> >> +               reply_mask |=3D STATX_BTIME | STATX_PTIME;
-> >>         if (!(cache_validity & NFS_INO_INVALID_CHANGE))
-> >>                 reply_mask |=3D STATX_CHANGE_COOKIE;
-> >>         return reply_mask;
-> >> @@ -978,10 +978,10 @@ int nfs_getattr(const struct mnt_idmap *idmap, c=
-onst struct path *path,
-> >>         request_mask &=3D STATX_TYPE | STATX_MODE | STATX_NLINK | STAT=
-X_UID |
-> >>                         STATX_GID | STATX_ATIME | STATX_MTIME | STATX_=
-CTIME |
-> >>                         STATX_INO | STATX_SIZE | STATX_BLOCKS | STATX_=
-BTIME |
-> >> -                       STATX_CHANGE_COOKIE;
-> >> +                       STATX_PTIME | STATX_CHANGE_COOKIE;
-> >>
-> >>         if (!(fattr_valid & NFS_ATTR_FATTR_BTIME))
-> >> -               request_mask &=3D ~STATX_BTIME;
-> >> +               request_mask &=3D ~(STATX_BTIME | STATX_PTIME);
-> >>
-> >>         if ((query_flags & AT_STATX_DONT_SYNC) && !force_sync) {
-> >>                 if (readdirplus_enabled)
-> >> @@ -1015,7 +1015,7 @@ int nfs_getattr(const struct mnt_idmap *idmap, c=
-onst struct path *path,
-> >>         if (!(request_mask & (STATX_MODE|STATX_NLINK|STATX_ATIME|STATX=
-_CTIME|
-> >>                                         STATX_MTIME|STATX_UID|STATX_GI=
-D|
-> >>                                         STATX_SIZE|STATX_BLOCKS|STATX_=
-BTIME|
-> >> -                                       STATX_CHANGE_COOKIE)))
-> >> +                                       STATX_PTIME|STATX_CHANGE_COOKI=
-E)))
-> >>                 goto out_no_revalidate;
-> >>
-> >>         /* Check whether the cached attributes are stale */
-> >> @@ -1038,7 +1038,7 @@ int nfs_getattr(const struct mnt_idmap *idmap, c=
-onst struct path *path,
-> >>                 do_update |=3D cache_validity & NFS_INO_INVALID_OTHER;
-> >>         if (request_mask & STATX_BLOCKS)
-> >>                 do_update |=3D cache_validity & NFS_INO_INVALID_BLOCKS=
-;
-> >> -       if (request_mask & STATX_BTIME)
-> >> +       if (request_mask & (STATX_BTIME | STATX_PTIME))
-> >>                 do_update |=3D cache_validity & NFS_INO_INVALID_BTIME;
-> >>
-> >>         if (do_update) {
-> >> @@ -1061,6 +1061,7 @@ int nfs_getattr(const struct mnt_idmap *idmap, c=
-onst struct path *path,
-> >>         if (S_ISDIR(inode->i_mode))
-> >>                 stat->blksize =3D NFS_SERVER(inode)->dtsize;
-> >>         stat->btime =3D NFS_I(inode)->btime;
-> >> +       stat->ptime =3D NFS_I(inode)->btime;
-> >>
-> >
-> > As an example of what would be needed per the mutable btime proposal,
-> > adding stat->ptime and STATX_PTIME will not be needed...
-> >
-> >>         /* Special handling for STATX_DIOALIGN and STATX_DIO_READ_ALIG=
-N
-> >>          * - NFS doesn't have DIO alignment constraints, avoid getting
-> >> @@ -1092,10 +1093,26 @@ int nfs_fileattr_get(struct dentry *dentry, st=
-ruct file_kattr *fa)
-> >>         }
-> >>         if (nfs_server_capable(inode, NFS_CAP_CASE_NONPRESERVING))
-> >>                 fa->fsx_xflags |=3D FS_XFLAG_CASENONPRESERVING;
-> >
-> > This would need:
-> >                   fa->fsx_xflags |=3D FS_XFLAG_CASEFOLD;
-> > +                fa->fsx_xflags_mask |=3D FS_XFLAG_CASEFOLD;
-> > +                fa->fsx_xflags_ro_mask |=3D FS_XFLAG_CASEFOLD;
-> > +                /* unlink other fs FS_CASEFOLD_FL is read-only */
-> (oh, s/unlink/unlike/?)
+> If you ask me, this is not your problem and I agree with Pali that
+> this is a policy decision.
+>
+> I would not include this patch at all in the series if I were you.
+> Maybe as a demo user, but you could just as well include a demo
+> user application.
 
-Yeh :)
-It's a comment for you not for the code
+Ah, ok, fair.
 
+> The nfsd user is a simpler demo, so as long as the nfsd maintainers
+> are on the same page wrt the mutable btime plan, you could include
+> it in your series.
 >
-> >                   fa->flags |=3D FS_CASEFOLD_FL;
-> With the new API and vfs helpers, this would need to get removed, as vfs
-> would already handle this for legacy ioctls, correct?
->
-> >         }
-> >                    fa->fsx_xflags |=3D FS_XFLAG_CASENONPRESERVING;
-> > +                 fa->fsx_xflags_mask |=3D FS_XFLAG_CASENONPRESERVING;
-> > +                 fa->fsx_xflags_ro_mask |=3D FS_XFLAG_CASENONPRESERVIN=
-G;
-> Uhm, why both in _mask and _ro_mask? If it's a RDONLY flag shouldn't
-> it *only* be in _ro_mask? (same for CASEFOLD)
->
+> The problem you raise with DOSATTRIB xattr is similar to the problems
+> that Chuck raised for ptime vs. btime as the source of FATTR4_TIME_CREATE
 
-Good question. Maybe
-I guess if you want to follow some percent
-FS_FL_USER_MODIFIABLE is a subset of FS_FL_USER_VISIBLE
-but I think that exporting ro_mask and _mask is going to be easier and
-cleaner than rw_mask but not sure.
-
-> >
-> >> +       if (NFS_SERVER(inode)->fattr_valid & NFS_ATTR_FATTR_BTIME) {
-> >> +               fa->fsx_xflags |=3D FS_XFLAG_PTIME;
-> >> +               fa->fsx_xflags_mask |=3D FS_XFLAG_PTIME;
-> >> +               fa->fsx_ptime =3D NFS_I(inode)->btime;
-> >> +       }
-> >
-> > +               fa->fsx_xflags |=3D FS_XFLAG_BTIME;
-> > +               fa->fsx_xflags_mask |=3D FS_XFLAG_BTIME;
-> > +               fa->fsx_btime =3D NFS_I(inode)->btime;
-> >
-> > Fs with immutable btime could either not advertise the BTIME flag
-> > in xflags/xflags_mask or advertise the flag also in xflags_ro_mask.
->
-> That makes sense.
->
-> >>         return 0;
-> >>  }
-> >>  EXPORT_SYMBOL_GPL(nfs_fileattr_get);
-> >>
-> >> +int nfs_fileattr_set(const struct mnt_idmap *idmap, struct dentry *de=
-ntry,
-> >> +                    struct file_kattr *fa)
-> >> +{
-> >> +       const struct nfs_rpc_ops *ops =3D NFS_PROTO(d_inode(dentry));
-> >> +
-> >> +       if (ops->fileattr_set)
-> >> +               return ops->fileattr_set(idmap, dentry, fa);
-> >> +       return -EOPNOTSUPP;
-> >> +}
-> >> +EXPORT_SYMBOL_GPL(nfs_fileattr_set);
-> >> +
-> >>  static void nfs_init_lock_context(struct nfs_lock_context *l_ctx)
-> >>  {
-> >>         refcount_set(&l_ctx->count, 1);
-> >> diff --git a/fs/nfs/internal.h b/fs/nfs/internal.h
-> >> index 5af6a032f145..0e47fad944de 100644
-> >> --- a/fs/nfs/internal.h
-> >> +++ b/fs/nfs/internal.h
-> >> @@ -458,6 +458,8 @@ extern int nfs_wait_bit_killable(struct wait_bit_k=
-ey *key, int mode);
-> >>
-> >>  struct file_kattr;
-> >>  int nfs_fileattr_get(struct dentry *dentry, struct file_kattr *fa);
-> >> +int nfs_fileattr_set(const struct mnt_idmap *idmap, struct dentry *de=
-ntry,
-> >> +                    struct file_kattr *fa);
-> >>
-> >>  #if IS_ENABLED(CONFIG_NFS_LOCALIO)
-> >>  /* localio.c */
-> >> diff --git a/fs/nfs/nfs4proc.c b/fs/nfs/nfs4proc.c
-> >> index e1018b03c1cb..31d58ceb4dc0 100644
-> >> --- a/fs/nfs/nfs4proc.c
-> >> +++ b/fs/nfs/nfs4proc.c
-> >> @@ -55,6 +55,7 @@
-> >>  #include <linux/utsname.h>
-> >>  #include <linux/freezer.h>
-> >>  #include <linux/iversion.h>
-> >> +#include <linux/fileattr.h>
-> >>
-> >>  #include "nfs4_fs.h"
-> >>  #include "delegation.h"
-> >> @@ -98,7 +99,8 @@ static int _nfs4_proc_getattr(struct nfs_server *ser=
-ver, struct nfs_fh *fhandle,
-> >>                               struct nfs_fattr *fattr, struct inode *i=
-node);
-> >>  static int nfs4_do_setattr(struct inode *inode, const struct cred *cr=
-ed,
-> >>                             struct nfs_fattr *fattr, struct iattr *sat=
-tr,
-> >> -                           struct nfs_open_context *ctx, struct nfs4_=
-label *ilabel);
-> >> +                           struct nfs_open_context *ctx, struct nfs4_=
-label *ilabel,
-> >> +                           const struct timespec64 *time_create);
-> >>  static struct rpc_task *_nfs41_proc_sequence(struct nfs_client *clp,
-> >>                 const struct cred *cred,
-> >>                 struct nfs4_slot *slot,
-> >> @@ -3216,7 +3218,7 @@ static int _nfs4_do_open(struct inode *dir,
-> >>                         nfs_fattr_init(opendata->o_res.f_attr);
-> >>                         status =3D nfs4_do_setattr(state->inode, cred,
-> >>                                         opendata->o_res.f_attr, sattr,
-> >> -                                       ctx, label);
-> >> +                                       ctx, label, NULL);
-> >>                         if (status =3D=3D 0) {
-> >>                                 nfs_setattr_update_inode(state->inode,=
- sattr,
-> >>                                                 opendata->o_res.f_attr=
-);
-> >> @@ -3380,7 +3382,8 @@ static int _nfs4_do_setattr(struct inode *inode,
-> >>
-> >>  static int nfs4_do_setattr(struct inode *inode, const struct cred *cr=
-ed,
-> >>                            struct nfs_fattr *fattr, struct iattr *satt=
-r,
-> >> -                          struct nfs_open_context *ctx, struct nfs4_l=
-abel *ilabel)
-> >> +                          struct nfs_open_context *ctx, struct nfs4_l=
-abel *ilabel,
-> >> +                          const struct timespec64 *time_create)
-> >>  {
-> >>         struct nfs_server *server =3D NFS_SERVER(inode);
-> >>         __u32 bitmask[NFS4_BITMASK_SZ];
-> >> @@ -3391,6 +3394,7 @@ static int nfs4_do_setattr(struct inode *inode, =
-const struct cred *cred,
-> >>                 .server         =3D server,
-> >>                 .bitmask =3D bitmask,
-> >>                 .label          =3D ilabel,
-> >> +               .time_create    =3D time_create,
-> >>         };
-> >>         struct nfs_setattrres  res =3D {
-> >>                 .fattr          =3D fattr,
-> >> @@ -3414,6 +3418,9 @@ static int nfs4_do_setattr(struct inode *inode, =
-const struct cred *cred,
-> >>         if (sattr->ia_valid & ATTR_MTIME)
-> >>                 adjust_flags |=3D NFS_INO_INVALID_MTIME;
-> >>
-> >> +       if (time_create)
-> >> +               adjust_flags |=3D NFS_INO_INVALID_BTIME;
-> >> +
-> >>         do {
-> >>                 nfs4_bitmap_copy_adjust(bitmask, nfs4_bitmask(server, =
-fattr->label),
-> >>                                         inode, adjust_flags);
-> >> @@ -4587,7 +4594,7 @@ nfs4_proc_setattr(struct dentry *dentry, struct =
-nfs_fattr *fattr,
-> >>         if ((sattr->ia_valid & (ATTR_MODE|ATTR_UID|ATTR_GID)) !=3D 0)
-> >>                 nfs4_inode_make_writeable(inode);
-> >>
-> >> -       status =3D nfs4_do_setattr(inode, cred, fattr, sattr, ctx, NUL=
-L);
-> >> +       status =3D nfs4_do_setattr(inode, cred, fattr, sattr, ctx, NUL=
-L, NULL);
-> >>         if (status =3D=3D 0) {
-> >>                 nfs_setattr_update_inode(inode, sattr, fattr);
-> >>                 nfs_setsecurity(inode, fattr);
-> >> @@ -10845,6 +10852,44 @@ static void nfs4_disable_swap(struct inode *i=
-node)
-> >>         wake_up_var(&clp->cl_state);
-> >>  }
-> >>
-> >> +#define NFS4_SUPPORTED_XFLAGS  (FS_XFLAG_PTIME)
-> >> +static int nfs4_fileattr_set(const struct mnt_idmap *idmap, struct de=
-ntry *dentry,
-> >> +                            struct file_kattr *fa)
-> >> +{
-> >> +       struct inode *inode =3D d_inode(dentry);
-> >> +       struct nfs_server *server =3D NFS_SERVER(inode);
-> >> +       struct nfs_fattr *fattr;
-> >> +       struct iattr sattr =3D { .ia_valid =3D 0 };
-> >> +       const struct timespec64 *time_create =3D NULL;
-> >> +       int error;
-> >> +
-> >> +       if (!(server->fattr_valid & NFS_ATTR_FATTR_BTIME))
-> >> +               return -EOPNOTSUPP;
-> >> +
-> >> +       if (fa->flags_valid)
-> >> +               return -EOPNOTSUPP;
-> >> +
-> >> +       if (fileattr_has_fsx_mask(fa, NFS4_SUPPORTED_XFLAGS))
-> >> +               return -EOPNOTSUPP;
-> >> +
-> >> +       if (fa->fsx_xflags_mask & ~NFS4_SUPPORTED_XFLAGS)
-> >> +               return -EOPNOTSUPP;
-> >> +
-> >
-> > These two checks look semantically identical.
-> > I am not sure yet what you intention was with the
-> > fileattr_has_fsx_mask() helper - I know you had reservations about it
-> > but at least in this code, it doesn't look like it is needed at all.
->
-> Eh, the name is not the best, but they aren't, _mask & check the _mask
-> field, has_fsx_mask checks the xflags field (which is why I added the
-> question of keeping its name as it is or changing it to
-> "fileattr_has_unsupported_fsx").
-> But I'm not even sure we still need this helper, so I may just drop it.
->
-
-I don't care either way as long as the code reads fine.
+Ah right, I can see the parallel, tho before the ptime change you
+couldn't modify the creation time at all from linux with nfsd, so in
+that case unless a user manually changed it after a kernel upgrade, it
+wouldn't have this desync problem (apart from a kernel downgrade).
 
 Thanks,
-Amir.
+koraynilay
+
+> Thanks,
+> Amir.
+
+
+
+--7e8bd4a9c12ebb9d8a66b83f0766d89a19a194b2b3f96510da164a6c43d9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRJ2XvJtXGwULYEerQ0bnTtJTDoOAUCawBJ3gAKCRA0bnTtJTDo
+OJc/AQCn/pvK3+PSezucUXa1GtiKLjE7oMlXGStcJfzdnlWtcAD9GPZFH0ccIs4C
+afAlaO9nsoqLSUJ3Hk7qioPrnGVqrQM=
+=CBTM
+-----END PGP SIGNATURE-----
+
+--7e8bd4a9c12ebb9d8a66b83f0766d89a19a194b2b3f96510da164a6c43d9--
