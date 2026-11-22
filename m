@@ -1,52 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=57.103.79.39
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795265855;
-	b=ufwpptuecg7SrZuBD+XoFBO7DqmQ691M/dKaPA2a/W6n5+A92+BEFnL9zkVIMNE51c64
-	 mxn4Y8e1Ujsji4CW/MbV0YvjdSQ5imrQUYhOKg4luOGhPg1mHBEBcqLPayCZWsdOm/7I3
-	 6JBiBtDRVegDsYqV9AmEQ8EEB9DKfsEp662yQidxMsAiTSa19G1WEvqzV6sfjDRICo0nm
-	 wwyHILxp0WpwisTtBaIQMaZaZ/8t4ap1QHNuH/9qCuytFZvM0KVhjXsCVF63DCAVP8VG3
-	 3T/LvANr0uuqRxEeljkPNlAWnq7EbxYXWTHkddvY65BJh3gaJJ8awvuIMmfv38pjONQ==
+	t=1795358591;
+	b=wuJirKIjx65SlT43purG8syIUfpmQpYJTOB3lGxTuFKt31dnqiisPU0U7n171lOradiq
+	 0U8PQoo6CHQdXzl7GZLeM/k6oHyWEDu9ypu8esDoKW/kK9sfFnu0J1jqXNCJWJNlsnKSe
+	 KABBV7SWpNxNkuUjxuG0Lp12kOPpKJf0X5EE+A4SH+BbO/iGoqmow25KLXZO0H5X0zaCm
+	 l92FHskxQUvkQ3FIkJ8Xi2axha/otz4U5v3/H1bLDPYacF9ospSWsWLzlGZQSoE/QYIKQ
+	 WOWoRw+lpYRPu/ia0O5ilPVhkNIEOqgDse7Ji38JUEa1Um1Bipxz7PwQ+kL9rd/fozg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795265855;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=7BUi2AXTIZAtU7PwfBCl14O7zR288kur5dqKM2LOTrg=;
-	b=PtklZy/L6R13LDKITCVWMP8JkdvIsjUySxY0iuJxoLXRgDsWZl0DG7M7Vtoqt+LqJ9Dx
-	 E+IDZ52iIBbZhXzPD/a+12Mj1/iHHQ0mLtBfUGIOOM4rkq1oU+q2jHTBvERXxOJtZefVz
-	 YNLZIZ7riY6CmTs9MPIjZvz5tmMFL2eTTCoLsVyZeWRwCc8Ry/niMYa5Q/oTa/MxxNoCa
-	 F2K3rrioA8Gm/kSn996RfMtRir/S4DusnL+BvGw9+DAu/tnnTiBlL4CPbe+r/l67FYS2+
-	 9qaFm4rVC567XKETSw99fj/BkYMXsr0nHFtpNiQtAvdCRxi4dgSa9IObRXJMtYsVhaw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795358591;
+	h=DMARC-Filter:Received:X-ICL-RepId:Dkim-Signature:
+	 mail-alias-created-date:Received:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Info-Out:
+	 X-Proofpoint-ORIG-GUID:X-JNJ;
+	bh=PCwvu/7c8j6/O2ejlxj9OlUzPL9S8uniZszqbdRiRso=;
+	b=qW46+Mn5lAwTUEB6tfjX3ftqWS2K8B0+A4WXLqv0MXh0RvGbr6gHTsdhbakXPXOh17Y/
+	 0b59M9Bt6yqx6Jhm+5/RFJ644BICh7VbXY4PogQ4W3HmtkwouhU0Y5D38OI4Ooq087ajr
+	 rsfGvIAmR3oZrbb1dUedyc/T/QNsYnlJa+s00S2HtS49qnabmGXg3O3RFTLtdYVVBh4cI
+	 DIo/8y+MHBYwM1kG2+/nU1rGkQ8zGAeJJg+EIqlDsb96/qp8ERcia0oYyFADYlL2Qv1pV
+	 GhAEMznOhALS4n3NJewKzzjaQ/cFPWsKnGrDbr9Ltt5+IWleA+89Vpm8UZdEpGUdXRA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=n2hZ1eRM;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=mennemann.net;
+	spf=pass smtp.mailfrom=mennemann.net;
+	dkim=pass header.d=mennemann.net header.i=@mennemann.net header.a=rsa-sha256 header.s=sig1 header.b=kbBay+Zf;
+	arc=none smtp.remote-ip=57.103.79.39
+Received: from outbound.st.icloud.com (st-2005h-snip4-6.eps.apple.com [57.103.79.39])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB020606A320;
-	Sat, 21 Nov 2026 12:57:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1E4606A320
+	for <ntfs3@lists.linux.dev>; Sun, 22 Nov 2026 14:43:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3E1E4606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mennemann.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mennemann.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=n2hZ1eRM
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFAA91F000C0;
-	Sat, 21 Nov 2026 12:57:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1795265855;
-	bh=7BUi2AXTIZAtU7PwfBCl14O7zR288kur5dqKM2LOTrg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=n2hZ1eRMpCqIvAmb2BpUoUbG6x06+PVp0/agBE2meXNNonx+wsQtAXqSPI/w3SL+s
-	 XWD4qA/kX5/lm2ucpwpGmjG4+TJ63daYGTplr92nSbEk4W5294qZQlTNyG9bFXKH4L
-	 DJf2kOghi8vQdm44TIIMcytiVgUAwOsVuJLsLWIM=
-Date: Sat, 21 Nov 2026 13:57:56 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Tanuj Sharma <ertanuj96@gmail.com>
-Cc: ntfs3@lists.linux.dev, almaz.alexandrovich@paragon-software.com,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v3] ntfs3: fix out-of-bounds write in do_action() bitmap
- operations
-Message-ID: <2026112132-penalty-senate-0934@gregkh>
-References: <2026112132-spending-smoking-5e7d@gregkh>
- <20261121122417.72854-1-ertanuj96@gmail.com>
- <2026112152-delivery-synopsis-ada7@gregkh>
+	dkim=pass (2048-bit key, unprotected) header.d=mennemann.net header.i=@mennemann.net header.a=rsa-sha256 header.s=sig1 header.b=kbBay+Zf
+Received: from outbound.st.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-east-1a-100-percent-9 (Postfix) with ESMTPS id BEB821800104;
+	Sun, 22 Nov 2026 14:43:08 +0000 (UTC)
+X-ICL-RepId: 01a203b5-ff0d-7ec3-8ac3-87b8856142c4
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mennemann.net; s=sig1; t=1795358589; x=1826894589; bh=PCwvu/7c8j6/O2ejlxj9OlUzPL9S8uniZszqbdRiRso=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=kbBay+Zfm8P2CKOaDAdjtP9vjmUgt1Tq5Tj+B4OieVWU1LpNa1Kg9JLTI2Pk007LMVmRfo+0mGrHs87nurTnTbhF4UjZGYfdG9G8f4pOAFt5jIY+5PSzDZ+70I0WN5bLbcLnqmIiBJMIUuEj/QltdeLExZ8sjT9zgSRvBRItB5GZsiW2g4Zz3omoh7AUoaU/ScTNAFNwAhkLFTnXoHWQq2t01IjYJa5o/uvg1ooiRL/XrbXK3e9kwpUoeQM8aHFsgE6aLO2slyA+oAUSandRL1Kd31gsisR5a3Gc9xeY2LwoyifmcW9zetAPuSQ+3IYH1Q0pbvsSairVCfuUMT4bmA==
+mail-alias-created-date: 1719251376433
+Received: from archlinux.localdomain (unknown [17.156.216.30])
+	by p00-icloudmta-asmtp-us-east-1a-100-percent-9 (Postfix) with ESMTPSA id 32B741800116;
+	Sun, 22 Nov 2026 14:43:07 +0000 (UTC)
+From: Marcin Mennemann <marcin@mennemann.net>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	regressions@lists.linux.dev,
+	regressions@leemhuis.info,
+	senjin@hatchling.org
+Subject: Re: [PATCH] fs/ntfs3: fix SEEK_DATA/SEEK_HOLE for WOF compressed and dedup files
+Date: Sun, 22 Nov 2026 15:43:02 +0100
+Message-ID: <20261122144302.32486-1-marcin@mennemann.net>
+X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261025122411.14550-1-marcin@mennemann.net>
+References: <20261025122411.14550-1-marcin@mennemann.net>
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -56,112 +67,53 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026112152-delivery-synopsis-ada7@gregkh>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: crt81EapdHYEbURfAgJ9fan49_Imfp2m
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIyMDA1OCBTYWx0ZWRfX819zAjvEBf2+
+ D1XJzHs3bm9POCL1sIwUVAmw+tXsuakkQL0uVT5QrhjQmfHoj3cQ2aNTByy8YbGXL3KXvYQSdmE
+ ZjE9jLR7X3LoWfc5wKIeTdbsMk8n5zE=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIyMDA1OCBTYWx0ZWRfXxpIIfzGUmBQZ
+ Md6P1H/UwrhH7tVy8bd3DF3H+eFHINSygjSqjkMgUssSU2RFtkjl07ocpoeCf5F3W1egoKrgUXr
+ fF1rNScU7f+DmUvU2xzJuV+oQC6R68rxiyGqekWwpphWcYsb7qorXNgyVjmm9b0wG4tmWGsGYji
+ Y4051YKTzXBa9tG9hnTGALlXL3yM66fYURmyABCN3YcXPC39wT+ILoIRsAXMkg8IRMU+vcvDTAo
+ bG9TmrcpbYRCJaokcy6EB8xBmHd2chOhblX1+njSLMZtHB9pE7J2UTuzQ1lhv0Pd4v6n18WB/u7
+ GwiCgxGCQyjXePwazsBJxuWOY7kBg/n3nTnG4BwCOdrsxfzbkIU76i3PuPqXik=
+X-Authority-Info-Out: v=2.4 cv=CqIq4X4D c=1 sm=1 tr=0 ts=6b02ff7d
+ cx=c_apl:c_pps:t_out a=oyWFxbOnq+dmhQrAPgaJYA==:117
+ a=oyWFxbOnq+dmhQrAPgaJYA==:17 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EYaFdmsEC1CjpenOt5ir:22 a=5dLkQmbtQYkJk1E8iZFh:22 a=VwQbUJbxAAAA:8
+ a=Y3k0dO8rAAAA:8 a=lAgNKBcoAAAA:8 a=kcNRxDtnd2coJggxobkA:9
+ a=Vsd_HAn_fMcgZoXZC4y2:22 a=drE6d5tx1tjNRBs8zHOc:22
+X-Proofpoint-ORIG-GUID: crt81EapdHYEbURfAgJ9fan49_Imfp2m
+X-JNJ: AAAAAAAB1EmmsLY5XstglhZZI6B3Jg2nMJCtt4Vq6zosA+6FzznV1VgiwvkyPVcfDctagn
+ 38TSs2VAX2M8DtuXpJlFUtPp094p7Pib4NppKrDSJOd4oV3K3wRW0aCsnnY0i3zTArF6zI
+ p1zH9pEy0YGu+iejC9nDXzsYN8PD9W0QNiauhq8lz9vIkL8s8REp8hhyEm1qJAyX7T2p/8
+ IKdpFovbbnSZMo8QbP4uCm4nDLVyUxBP252ttOtbbKsdVAXRir4N7zayknNNLApP3Oux9n
+ GG0kcj6jpjZfEW1zJbjEFfYPP1PpeTajnrx5osnTCCBX642HqhEC9XgmThoIs33dXgUbRo
+ /8a7x6I4HdBrR2uWA5jWAmxTMgNcJnLZ4sVq7GnErXbycBac1zrYEdo34fyBJF+U/E95Et
+ zJgGoN3sKZv/iYlodn0Yvy9n1YKvwxh42Mj2N/BvR+cRQOIWZG7dqemyZn/BtlX/+qtbdI
+ WhV+EaAFwN/SJ004ATS2pApnDrsKmlEBXZnBMMCDj2AALL/rt3NDRpVDjrnVg4EdKsAtH6
+ o2HMmC/lNBFRk+eRrBsK3a2T9rzO4fubz5+E1Pv9UlsSulMkfG3lWH6e34HbNqjTExYGcn
+ NPlFQVrTTqossUfEY9olpmpioqF2h8/qmu9u3lp2w0SwFpV0cd6jTbdOcDWmDnKkDF0VfB
+ yA9o7cRmPD1ekXmgunYzNFe30VQLKHDgMWD/Z8S7IHU/N0WTU2hRi62w8RYkG9whdR9hEj
+ IFaAJ1FUOoZjVDfwKFV6cf1qhnT+iHRj3AsEm7pIoiqOuOWxMcrJMMj3CKyfuoSWq4NHyS
+ r0QdisR2MHvjOvwqjCctELa+UtlAfS0Fgc8hlBHZSSmFIoS7o+OD2TBGD/pyXrcWLqz6Oz
+ EiHU5KRhvdzn3Q7cenHi9cXcsRaTuIqckBV9fb7lkvIjIJOvfTcE2ObrGZHpAlatNzClDY
+ 6RV0lYrJ8ya7abrjVxQea7OvwsxHlJ2D5K88FO4bM40c86ihTjr5akk4sXSJ2YpQm6BciS
+ MTjJv0zPVMYurjnzcbgw4Xmo6GBjInXPR8hDY9ODyLPxrrA2pUf9XKnfNA79W+0E0u4tp5
+ 3k+Cr0JvZY+j72hHe/eoHlqVtBweNhcEPs/7ElcfbIGlFv+Ig7ER3dbjjzf9T2dX9msLA4
+ EUkahhuSBeBCnm8jjL7CP32jqOr3V3fkfbIXcjoKdQQGncJRLDAISt0FAK75wNbYGiWmJY
+ 1FE/ETr6Dqg4VV2H4NM9Db8jSm4eEAc5DZK/9s9xVt+xsNRLA4aO7KAJXG5sq2JywRtSmQ
+ ==
 
-On Sat, Nov 21, 2026 at 01:57:24PM +0100, Greg KH wrote:
-> On Sat, Nov 21, 2026 at 05:54:17PM +0530, Tanuj Sharma wrote:
-> > In do_action(), when replaying log records for ATTR_ALLOC attributes,
-> > the buffer is allocated based on bytes_per_index (typically 4096 bytes,
-> > kmalloc-4k) but bitmap operation bounds checking uses lco -- a larger
-> > value derived from lcns_follow << cluster_bits (typically 8192).
-> > 
-> > This allows SetBitsInNonresidentBitMap and ClearBitsInNonresidentBitMap
-> > opcodes to write past the allocated buffer into the adjacent slab object
-> > when processing crafted NTFS images with malicious $LogFile records.
-> > 
-> > The bounds check compares against lco (the full LCN extent size) but
-> > should compare against the actual buffer capacity. For ATTR_ALLOC, the
-> > buffer is only bytes_per_index bytes, allocated here:
-> > 
-> >   if (attr->type == ATTR_ALLOC) {
-> >       t32 = le32_to_cpu(oe->bytes_per_index);
-> >       if (bytes < t32)
-> >           bytes = t32;
-> >   }
-> >   buffer_le = kmalloc(bytes, GFP_NOFS);
-> > 
-> > But the bounds check uses the larger lco:
-> > 
-> >   if (cbo + (off + 7) / 8 > lco || ...)
-> > 
-> > With bytes_per_index=4096 and lco=8192, any bitmap_off >= 32768
-> > (byte offset 4096) passes the lco check but writes past the buffer.
-> > 
-> > Fix this by computing the bounds limit as the minimum of the buffer
-> > extent (cbo + bytes_per_index) and the LCN extent (lco). This ensures
-> > bitmap operations cannot exceed either the allocated buffer or the
-> > on-disk extent, and also prevents a crafted bytes_per_index larger
-> > than lco from weakening the existing check.
-> > 
-> > Found by code audit and confirmed with a crafted NTFS image that
-> > triggers the OOB write on mount.
-> > 
-> > Cc: stable@vger.kernel.org
-> > Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-> > Signed-off-by: Tanuj Sharma <ertanuj96@gmail.com>
-> > ---
-> > Changes in v3:
-> > - Fix coding style: move bmp_limit declaration to function scope,
-> >   remove bare blocks
-> > 
-> > Changes in v2:
-> > - Resend with proper formatting (git send-email)
-> > 
-> >  fs/ntfs3/fslog.c | 17 +++++++++++++----
-> >  1 file changed, 13 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-> > index 1879d04e3cd05..373d84545a8fe 100644
-> > --- a/fs/ntfs3/fslog.c
-> > +++ b/fs/ntfs3/fslog.c
-> > @@ -3125,6 +3125,7 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
-> >  	u16 roff = le16_to_cpu(lrh->record_off);
-> >  	u16 aoff = le16_to_cpu(lrh->attr_off);
-> >  	u64 lco = 0;
-> > +	u64 bmp_limit;
-> >  	u64 cbo = (u64)le16_to_cpu(lrh->cluster_off) << SECTOR_SHIFT;
-> >  	u64 tvo = le64_to_cpu(lrh->target_vcn) << sbi->cluster_bits;
-> >  	u64 vbo = cbo + tvo;
-> > @@ -3751,8 +3752,12 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
-> >  		off = le32_to_cpu(((struct BITMAP_RANGE *)data)->bitmap_off);
-> >  		bits = le32_to_cpu(((struct BITMAP_RANGE *)data)->bits);
-> >  
-> > -		if (cbo + (off + 7) / 8 > lco ||
-> > -		    cbo + ((off + bits + 7) / 8) > lco) {
-> > +		bmp_limit = attr->type == ATTR_ALLOC ?
-> > +			min(cbo + (u64)le32_to_cpu(oe->bytes_per_index), lco) :
-> > +			lco;
-> > +
-> > +		if (cbo + (off + 7) / 8 > bmp_limit ||
-> > +		    cbo + ((off + bits + 7) / 8) > bmp_limit) {
-> >  			goto dirty_vol;
-> >  		}
-> 
-> Did you run checkpatch on this?  Why are these { } needed here?
-> 
-> >  
-> > @@ -3764,8 +3769,12 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
-> >  		off = le32_to_cpu(((struct BITMAP_RANGE *)data)->bitmap_off);
-> >  		bits = le32_to_cpu(((struct BITMAP_RANGE *)data)->bits);
-> >  
-> > -		if (cbo + (off + 7) / 8 > lco ||
-> > -		    cbo + ((off + bits + 7) / 8) > lco) {
-> > +		bmp_limit = attr->type == ATTR_ALLOC ?
-> > +			min(cbo + (u64)le32_to_cpu(oe->bytes_per_index), lco) :
-> > +			lco;
-> > +
-> > +		if (cbo + (off + 7) / 8 > bmp_limit ||
-> > +		    cbo + ((off + bits + 7) / 8) > bmp_limit) {
-> >  			goto dirty_vol;
-> >  		}
-> 
-> Or here?
+Hi Konstantin,
 
-Also, slow down, there is no rush here.  Always wait at LEAST 24 hours
-before resending a new version, ideally longer.
+Could one of the two fixes (mine or Senjin's [1]) go into your next
+fixes pull? It silently produces zero-filled copies of WOF compressed
+files, and Thorsten listed it as a stalled regression [2].
 
-thanks,
+[1] https://lore.kernel.org/ntfs3/6adc95fc26efdd1658b01fc5@mailersend.net/
+[2] https://lore.kernel.org/regressions/f03086b6-7fb1-4b52-859e-78cd52c9177d@leemhuis.info/
 
-greg k-h
+Thanks,
+Marcin
