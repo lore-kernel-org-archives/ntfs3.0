@@ -1,96 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795415098;
-	b=zJ4KTgKbbNU3of/XOFHzNoRHoZiXFdseAEWB3uVIlSvetifgQEWKuKvhnZfsXrbVYfaF
-	 QuPPQCl0qFWjJjOuT7VgsIx4rRAbJMu1I0FkjTZdd3FZSylDciLtYRO8uYcBULMzm3hOo
-	 idw9wo8lYjvj5EU8MofPNHsrvXZmPQE+50zPJw56fGC0REHFW+uUV5lgyRI7Eucye1rjz
-	 uj8CoANhs9sMSBsaIVhmGW53p3IJ+j/AHTInsuMFlLO+HT/6l6IBmrB9fBV2M1+DP+AOA
-	 MSzTHkPDeqMlvDGNt1Q494xLXXnqRXV/i8v/1nnP6yP2JSZ5NIFTREJlXLVZrsUljGA==
+	t=1795418154;
+	b=oxuG89IE0i2BuEn4L/bUpxnLKjO4cmdLOvm8aOC2dIjwcB3nbSq1MSJq/UjCWd0ykZd2
+	 dQEjjcNwxt8HUjtNbTaTilDxvgLcyaRutTOafcYSrYTsLN25+GAsOGkMpT49ZEfgniP3V
+	 9cb3GptprSUti2wy4zK7lAnV5sOQHR5yH91xVPYUSqXi9tBY/DqUF3pilPjivOU88N8KO
+	 x9juXJkvdPDzeJtWSFM0vHa27k9irl/lNjbLDF6cbiarGNLuITsS7dnDJ6/dYZB6gc1q1
+	 OGMgRFmURTWTaZAIEAJmI6gZGgnNEqPTZvOhvyrjUW53dlw3AWUXOodYDov3yKz5kLQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795415098;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=dFdEqFiacjVlyhuruK5DmKXl2N1tqCNj7wsKhuFYg58=;
-	b=LREo4SmCxywavfItPC48vVKKYgR9huH/HesLPcS/mFWqu9D/eG4x/dzJcC57rHKKH+f3
-	 KV8kmS9xAm3+D1IKvXpP6ApkHM8OrR1WPxqS7wjpHYUdImsIPhIS2Ph39KnAxZu+cwWPe
-	 /yyvjH405uWhzWZKDjZ8DkAqdK9mhqnRlehW/4hTG1+jsjOh3xxc+LV9tM0FfPj8FAj21
-	 vmlklus5WfkEQdsvyYQR3UIAtu7WT/ikVGlsNv3sA4zyyFdR0RB7dB50HsYO7+j5UxPLd
-	 ZKbh8BaCHW/r0Mnav07IyLGio5eOaRHIugbH8Szm5S/wMVkjOKaKALdJTzOvLN1xhJg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795418154;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:In-Reply-To:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Cc:Content-Type;
+	bh=629g86cRTauZQlhr9Wri/E7+EASS87C5XJjWnCiTchI=;
+	b=FGf2wNCRSk9V8fDW9EU+R+BSH+XvqYokhkYOaRJnlqlFUvdU69TnVCHTnuJ9hYWwV2j3
+	 ieIQMnPjJmOC/O/MSUwLVZB0lUMbnaO4l2eFglGW4KN+wUradApzMjRPNjQAcuoqDL+q7
+	 QuvnDQpdWqH1PsCbHxiwbCQttHX4vu6Z/Ku8eeqH9ZQzqCFEc8xx5gV5ZLQQtKXX3wVdf
+	 EhGSt3UJwtTIoWAzovCl0zQXMpUagFL0R8IhgGGCuBjNH/SzB+RqwtvV6aMgzHxWTXgyd
+	 RxezpCQD2Bo9e6M82vj+uB2XcYolt83L2Ib9lggSFjMLwFUHWxzHnSlwvKac4KDEwdg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JeS+z9t+;
-	arc=none smtp.remote-ip=74.125.82.169
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.167.199
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 776AA606A331
-	for <ntfs3@lists.linux.dev>; Mon, 23 Nov 2026 06:24:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 776AA606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JeS+z9t+
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-386ab9ab619so1556189eec.1
-        for <ntfs3@lists.linux.dev>; Sun, 22 Nov 2026 22:24:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795415097; x=1796019897; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dFdEqFiacjVlyhuruK5DmKXl2N1tqCNj7wsKhuFYg58=;
-        b=JeS+z9t+TqYqjGqboP+ureSXbBdmNnX1nhJuL8yVkXNz4susYDVqk7s0byKN59+x2v
-         q/st9CiMyULD8K4kP1rVWO5BEORFi1yh5oLSw0MC/27dOdZLh45SYsXGL2mZwVF8lTYm
-         NysHryDXQsMxnfvZTMssrMhpWoleYF0htb6RtfzpeW+HziTfxqSCkY9a/WrM3GSKtdg6
-         EiovOcnsJlJT9No8QR2nN1EhEd8xEI5Rvll1JeQHQLU3/q3R2w1f41KLvmtLbtQ3Z9GZ
-         /jVpXwe/eCR+Ji85HXRZJ5ME+MB1csaAqGJux+r7QeFj649FmJgnNcYuxFHMRVlT85CG
-         LeiQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28B35606A31F
+	for <ntfs3@lists.linux.dev>; Mon, 23 Nov 2026 07:15:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28B35606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4b37620eb73so4181225b6e.1
+        for <ntfs3@lists.linux.dev>; Sun, 22 Nov 2026 23:15:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795415097; x=1796019897;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dFdEqFiacjVlyhuruK5DmKXl2N1tqCNj7wsKhuFYg58=;
-        b=Kq9yHfc65Kxnj5VlXhNzN9FGZP4C6qXUXNs34SYBRa8PnJ6HSDPOoHE7tfvwZhgJI3
-         sXea5Nt54jgfmp0lrPGSIe4I0Lm29hBbGx4DDy5xoRADFFx3Y2m1HuLgKZf3eCsfzQeG
-         z2IvucDG79bowdMNrtI145I77AyzJeqdaduj/LjiJDwLAAknkvG9qXBxIT4B1FPufnZi
-         G7AfcHR+AKp7GFAIODvFTxs72BzLRUUDwBZb0P5DBggKOQ4nRbWDDLjW4LYcfWOD//DL
-         VB9vMGfI6KQinGlF4X1jxyjQ7zL8pqH8WLi2/Yezz81qL2aGdSHAyv2WFqncg/JiZW7r
-         a2Wg==
-X-Gm-Message-State: APuU4Z9T1hw6dadhe83tIUyzJ2/99kMWVzoPUL0qc+ITEN7MseZOYIPu
-	e9M7cv0mrJM4R9BwSrumTVQ/VrZZAhcFvXji/hxFIxHHYNNTqW2z2JHW8BkyW/eYwaA=
-X-Gm-Gg: AZFdTZf+Mp17wV/4af0Y2fJz0nL+NJUDW7j+FQy8D6/WBLyFXBCl641WLBMboVmzzsG
-	i4X0ZyM/uLrfA10SyJ1zajfVeNMnUL/fVfT8sVsB660DJJ7SWfGBDtQ7IxqA9mKyVDnz1Pfmkhz
-	e8nvQRiDVGkvA7sEJwBXpPqmNBJDDdMcnS5O67iYXta84MwyTJV83mURlFX2q/xr666KwpvqE0m
-	ohtmmbfXhpeJHB+UKFrod/Cmpnu+TaR45DDya0HPEHpB/zn9d758Wt6+mH22GAAt3hNxJlPtTkc
-	UCD3+rf0tEx+w0m1wivcmgKJdDMMJjkqAupdx5GXbggBwWxLONKC3m1r+djtJoweQG7jrraiQv7
-	7HYQpQ1HzQVuhZ44hTU69oisAbW0wXA1RoXDqTJPlExIHh8diUQfOACkieQPgFbTkifUQTudfhD
-	TJqoVBzeNqZIf6Zrz3KJcGQ5fWTHGNFxeIp9n+kxr8wl6I0HwOL3LdX5cJbiWtdBcylIkz1FzrI
-	Kd4hFL9MJOosT4Y4KxMMoxMcZP2AgQLaga3BXhrazj3v/ujMvKQ1B0gP0iDYtXXCw+Bqdslg30+
-	xwcsd7gWfWpgp62mNJE4GUPAMYlsczV6oshIvW+fSLUcMJXBDOyGVpP9WjO9M8bxVG+H+bD/vFB
-	r2MAHMgXOmr4OvvTfJA==
-X-Received: by 2002:a05:7301:6405:b0:381:a3bb:f945 with SMTP id 5a478bee46e88-38570254ec3mr12905314eec.22.1795415097415;
-        Sun, 22 Nov 2026 22:24:57 -0800 (PST)
-Received: from ip-192-168-31-150.ap-south-1.compute.internal ([2409:40d2:2009:6412:a5f6:d81:c3c7:7d8b])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385646633d0sm55987369eec.3.2026.11.22.22.24.54
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 22 Nov 2026 22:24:56 -0800 (PST)
-From: Tanuj Sharma <ertanuj96@gmail.com>
-To: ntfs3@lists.linux.dev
-Cc: almaz.alexandrovich@paragon-software.com,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	gregkh@linuxfoundation.org,
-	Tanuj Sharma <ertanuj96@gmail.com>
-Subject: [PATCH v4] ntfs3: fix out-of-bounds write in do_action() bitmap operations
-Date: Mon, 23 Nov 2026 11:54:50 +0530
-Message-ID: <20261123062450.5153-1-ertanuj96@gmail.com>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <2026112152-delivery-synopsis-ada7@gregkh>
-References: <2026112152-delivery-synopsis-ada7@gregkh>
+        d=1e100.net; s=20260707; t=1795418153; x=1796022953;
+        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=629g86cRTauZQlhr9Wri/E7+EASS87C5XJjWnCiTchI=;
+        b=MG8DOK6WfiWpRYDxpe0Z/4QyxsawaHVLtJZOdBkR8fzGqMMofFsENp8d6rLmWnvZMh
+         orf6GszLIRgPjTSCp7BTZvXD+o6VvwcrM7aQD+/2I6qIMZ8OyN5AXIif+FoPJPJ02GWU
+         +P/C2E4LaxkAgzsVC3cbi/awYzkMjYg6tDKXMX9AoknAfXrHLAl5FYhVSRVlwVj9WOX1
+         qpWYZyd8vyHoE5avBezrlx/wcrssbmFpDyNxFqZ9xvAK5NVRaqYLxidBkRtVdGjhj++e
+         UPzvekOpskim7vsKqzzybVwjOmsmrDd7exJKJEm5cXPvGDUcbFxkbudvYBvx5L6BAwCi
+         zEWg==
+X-Forwarded-Encrypted: i=1; AL+hErFbN2ZlwxnjNeREopZEEAd0Mj/1TsF39e1VYfu2MKUQ/78XHBJoTkl2iSoLyUhkoBYCGwjSRw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+HkwUliFPERv4I6sbDYId433/H2MTZP+4gNBtHDo4BhnVSmriM
+	gmtUQieP8rFPkm893yR4ImqKjlP4/tExXh1HqG3oPWGeC4KbAYnWBpSgd84X/teFVxj4rxDAfqU
+	RjaQTKlGo7mt68iowpR+HIIemdBemcEyDtqkNw0sU3a3QUj73zXbic6hlNgQ=
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -100,99 +58,94 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:198f:b0:573:7a6b:f33d with SMTP id
+ 5614622812f47-57a0ab2f9c8mr12792402b6e.42.1795418153219; Sun, 22 Nov 2026
+ 23:15:53 -0800 (PST)
+Date: Sun, 22 Nov 2026 23:15:53 -0800
+In-Reply-To: <20261118132710.29751-1-suruurism@gmail.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6b03e829.a481e175.27cf24.0019.GAE@google.com>
+Subject: [syzbot ci] Re: ntfs3: clear VMA_MAYWRITE on read-only
+ compressed-file mmap
+From: syzbot ci <syzbot+cie4518cb24e7c0c99@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev, 
+	stable@vger.kernel.org, suruurism@gmail.com
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-In do_action(), when replaying log records for ATTR_ALLOC attributes,
-the buffer is allocated based on bytes_per_index (typically 4096 bytes,
-kmalloc-4k) but bitmap operation bounds checking uses lco -- a larger
-value derived from lcns_follow << cluster_bits (typically 8192).
+syzbot ci has tested the following series
 
-This allows SetBitsInNonresidentBitMap and ClearBitsInNonresidentBitMap
-opcodes to write past the allocated buffer into the adjacent slab object
-when processing crafted NTFS images with malicious $LogFile records.
+[v1] ntfs3: clear VMA_MAYWRITE on read-only compressed-file mmap
+https://lore.kernel.org/all/20261118132710.29751-1-suruurism@gmail.com
+* [PATCH] ntfs3: clear VMA_MAYWRITE on read-only compressed-file mmap
 
-The bounds check compares against lco (the full LCN extent size) but
-should compare against the actual buffer capacity. For ATTR_ALLOC, the
-buffer is only bytes_per_index bytes, allocated here:
+and found the following issue:
+WARNING in mmap_validate
 
-  if (attr->type == ATTR_ALLOC) {
-      t32 = le32_to_cpu(oe->bytes_per_index);
-      if (bytes < t32)
-          bytes = t32;
-  }
-  buffer_le = kmalloc(bytes, GFP_NOFS);
+Full report is available here:
+https://ci.syzbot.org/series/2cf8a8c7-bfcc-4bcc-bfda-dccd333a025d
 
-But the bounds check uses the larger lco:
+***
 
-  if (cbo + (off + 7) / 8 > lco || ...)
+WARNING in mmap_validate
 
-With bytes_per_index=4096 and lco=8192, any bitmap_off >= 32768
-(byte offset 4096) passes the lco check but writes past the buffer.
+tree:      torvalds
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
+base:      b3f1631d362539cfe14571ccfd7db919ffbc08c7
+arch:      amd64
+compiler:  Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
+config:    https://ci.syzbot.org/builds/92ccdff0-04ed-4a0e-80d7-77102143beb7/config
+syz repro: https://ci.syzbot.org/findings/189d2e19-2002-455d-a0ed-c3a015048eaa/syz_repro
 
-Fix this by computing the bounds limit as the minimum of the buffer
-extent (cbo + bytes_per_index) and the LCN extent (lco). This ensures
-bitmap operations cannot exceed either the allocated buffer or the
-on-disk extent, and also prevents a crafted bytes_per_index larger
-than lco from weakening the existing check.
+loop0: detected capacity change from 0 to 4096
+ntfs3(loop0): Failed to load $Extend (-22).
+ntfs3(loop0): Failed to initialize $Extend.
+------------[ cut here ]------------
+was_maywrite && !is_maywrite
+WARNING: mm/vma.c:2872 at mmap_validate+0x1c3/0x1e0 mm/vma.c:2872, CPU#1: syz.0.17/5893
+Modules linked in:
+CPU: 1 UID: 0 PID: 5893 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+RIP: 0010:mmap_validate+0x1c3/0x1e0 mm/vma.c:2872
+Code: 5c 41 5d 41 5e 41 5f 5d e9 1a 34 d8 09 cc e8 e4 8a 98 ff 90 0f 0b 90 eb 1f e8 d9 8a 98 ff 90 0f 0b 90 eb 14 e8 ce 8a 98 ff 90 <0f> 0b 90 eb 09 e8 c3 8a 98 ff 90 0f 0b 90 41 be ea ff ff ff eb bb
+RSP: 0018:ffffc900041ef428 EFLAGS: 00010293
+RAX: ffffffff82309662 RBX: ffffc900041ef9a0 RCX: ffff8881686c3c00
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000200000000001 R08: ffffc900041ef9a7 R09: 1ffff9200083df34
+R10: dffffc0000000000 R11: fffff5200083df35 R12: dffffc0000000000
+R13: 1ffff9200083df34 R14: 0000000000000001 R15: 0000000000000001
+FS:  00007fb956e196c0(0000) GS:ffff8882a7809000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fb955e71a20 CR3: 00000001baeae000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ call_mmap_prepare mm/vma.c:2975 [inline]
+ __mmap_region mm/vma.c:3075 [inline]
+ mmap_region+0x12d8/0x2800 mm/vma.c:3173
+ do_mmap+0xe0a/0x1300 mm/mmap.c:573
+ vm_mmap_pgoff+0x27a/0x520 mm/util.c:581
+ ksys_mmap_pgoff+0x4dc/0x760 mm/mmap.c:619
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x16a/0x530 arch/x86/entry/syscall_64.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fb955fa8fd9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fb956e19028 EFLAGS: 00000246 ORIG_RAX: 0000000000000009
+RAX: ffffffffffffffda RBX: 00007fb956225fa0 RCX: 00007fb955fa8fd9
+RDX: 0000000000000001 RSI: 0000000000400000 RDI: 0000200000000000
+RBP: 00007fb956037fed R08: 0000000000000004 R09: 0000000000000000
+R10: 0000000000010012 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007fb956226038 R14: 00007fb956225fa0 R15: 00007ffcdbaed6f8
+ </TASK>
 
-Found by code audit and confirmed with a crafted NTFS image that
-triggers the OOB write on mount.
 
-Cc: stable@vger.kernel.org
-Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-Signed-off-by: Tanuj Sharma <ertanuj96@gmail.com>
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
 ---
-Changes in v4:
-  - Removed unnecessary braces around single goto statements
- fs/ntfs3/fslog.c | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
-
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index 1879d04e3cd05..0f83e4e8dbb9d 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -3125,6 +3125,7 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 	u16 roff = le16_to_cpu(lrh->record_off);
- 	u16 aoff = le16_to_cpu(lrh->attr_off);
- 	u64 lco = 0;
-+	u64 bmp_limit;
- 	u64 cbo = (u64)le16_to_cpu(lrh->cluster_off) << SECTOR_SHIFT;
- 	u64 tvo = le64_to_cpu(lrh->target_vcn) << sbi->cluster_bits;
- 	u64 vbo = cbo + tvo;
-@@ -3751,10 +3752,13 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 		off = le32_to_cpu(((struct BITMAP_RANGE *)data)->bitmap_off);
- 		bits = le32_to_cpu(((struct BITMAP_RANGE *)data)->bits);
- 
--		if (cbo + (off + 7) / 8 > lco ||
--		    cbo + ((off + bits + 7) / 8) > lco) {
-+		bmp_limit = attr->type == ATTR_ALLOC ?
-+			min(cbo + (u64)le32_to_cpu(oe->bytes_per_index), lco) :
-+			lco;
-+
-+		if (cbo + (off + 7) / 8 > bmp_limit ||
-+		    cbo + ((off + bits + 7) / 8) > bmp_limit)
- 			goto dirty_vol;
--		}
- 
- 		ntfs_bitmap_set_le(Add2Ptr(buffer_le, roff), off, bits);
- 		a_dirty = true;
-@@ -3764,10 +3768,13 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 		off = le32_to_cpu(((struct BITMAP_RANGE *)data)->bitmap_off);
- 		bits = le32_to_cpu(((struct BITMAP_RANGE *)data)->bits);
- 
--		if (cbo + (off + 7) / 8 > lco ||
--		    cbo + ((off + bits + 7) / 8) > lco) {
-+		bmp_limit = attr->type == ATTR_ALLOC ?
-+			min(cbo + (u64)le32_to_cpu(oe->bytes_per_index), lco) :
-+			lco;
-+
-+		if (cbo + (off + 7) / 8 > bmp_limit ||
-+		    cbo + ((off + bits + 7) / 8) > bmp_limit)
- 			goto dirty_vol;
--		}
- 
- 		ntfs_bitmap_clear_le(Add2Ptr(buffer_le, roff), off, bits);
- 		a_dirty = true;
--- 
-2.43.0
-
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
