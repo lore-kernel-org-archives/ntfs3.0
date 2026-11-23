@@ -1,54 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.157.23.187
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795418154;
-	b=oxuG89IE0i2BuEn4L/bUpxnLKjO4cmdLOvm8aOC2dIjwcB3nbSq1MSJq/UjCWd0ykZd2
-	 dQEjjcNwxt8HUjtNbTaTilDxvgLcyaRutTOafcYSrYTsLN25+GAsOGkMpT49ZEfgniP3V
-	 9cb3GptprSUti2wy4zK7lAnV5sOQHR5yH91xVPYUSqXi9tBY/DqUF3pilPjivOU88N8KO
-	 x9juXJkvdPDzeJtWSFM0vHa27k9irl/lNjbLDF6cbiarGNLuITsS7dnDJ6/dYZB6gc1q1
-	 OGMgRFmURTWTaZAIEAJmI6gZGgnNEqPTZvOhvyrjUW53dlw3AWUXOodYDov3yKz5kLQ==
+	t=1795434097;
+	b=acNoa2GjDKWynHc+lGyNBwrfDPf9tnr9L4e+oaHRm6egW4O+/aUvWaDc5uHgln/cCL3d
+	 m3Ez+R68OH80zAWDvoz97AHtsuhpA3boKVP2aRmqZzqdl6xaxHvchA3EQKdw1IPTa9cEJ
+	 HIxErBXwdsIDOEoqLtfF7lhDu+SUXD7/Lri+tnlX1iU6zSNAjeY1d7R2s+v22CzmC/Irt
+	 UHDMNlCqNLbAPYFXHuc7x1SueQjaYTih0lEKWXWwsN+IECUWJ0x3gKcad8Smxt4VEHXKS
+	 IUAU3el5JU6vkHX6XVbxexft9cyf+suB/naS08/x/0POw+a+ybf+z9WeXteCiTJ2pig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795418154;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:In-Reply-To:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Cc:Content-Type;
-	bh=629g86cRTauZQlhr9Wri/E7+EASS87C5XJjWnCiTchI=;
-	b=FGf2wNCRSk9V8fDW9EU+R+BSH+XvqYokhkYOaRJnlqlFUvdU69TnVCHTnuJ9hYWwV2j3
-	 ieIQMnPjJmOC/O/MSUwLVZB0lUMbnaO4l2eFglGW4KN+wUradApzMjRPNjQAcuoqDL+q7
-	 QuvnDQpdWqH1PsCbHxiwbCQttHX4vu6Z/Ku8eeqH9ZQzqCFEc8xx5gV5ZLQQtKXX3wVdf
-	 EhGSt3UJwtTIoWAzovCl0zQXMpUagFL0R8IhgGGCuBjNH/SzB+RqwtvV6aMgzHxWTXgyd
-	 RxezpCQD2Bo9e6M82vj+uB2XcYolt83L2Ib9lggSFjMLwFUHWxzHnSlwvKac4KDEwdg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795434097;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+	bh=9oFz6UDT8gjmviaKWCp1t0akVQqvfGRhOXiu+f5jWeo=;
+	b=WyHaxQo6k9AzO1GFsV+jEylWygm2ohj50WD2LekntdQdq03e+bTnZPB1OdOYQgceSc+I
+	 jd50ltc70YrjEJiFISgjNEMLpV0F5umTE4CRooXj+9iFDGce1wD0UbcYWIKrWVizy9Zj+
+	 APZgukFuU2rd8MEp1f9+0B+3/qIcLddEMXtrjlBkFMBKB5wcWb0kfY3pK6yZTi/5zDOW2
+	 2AfYJT5PZflORNqV153YNyYxHaYCTjt/B6BoOdcbamapr7qV5U0xCPMYdMgobHf7rqrY8
+	 Zxm9jnp/7spAnTLg5/8rcMCSAQefxNMUI97vqUn5Ur4djCh5vT/8FEhoR/MJWUIS79A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.167.199
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=paragon-software.com;
+	spf=pass smtp.mailfrom=paragon-software.com;
+	dkim=pass header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=VZA9A8z+;
+	arc=none smtp.remote-ip=35.157.23.187
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28B35606A31F
-	for <ntfs3@lists.linux.dev>; Mon, 23 Nov 2026 07:15:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28B35606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4b37620eb73so4181225b6e.1
-        for <ntfs3@lists.linux.dev>; Sun, 22 Nov 2026 23:15:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795418153; x=1796022953;
-        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=629g86cRTauZQlhr9Wri/E7+EASS87C5XJjWnCiTchI=;
-        b=MG8DOK6WfiWpRYDxpe0Z/4QyxsawaHVLtJZOdBkR8fzGqMMofFsENp8d6rLmWnvZMh
-         orf6GszLIRgPjTSCp7BTZvXD+o6VvwcrM7aQD+/2I6qIMZ8OyN5AXIif+FoPJPJ02GWU
-         +P/C2E4LaxkAgzsVC3cbi/awYzkMjYg6tDKXMX9AoknAfXrHLAl5FYhVSRVlwVj9WOX1
-         qpWYZyd8vyHoE5avBezrlx/wcrssbmFpDyNxFqZ9xvAK5NVRaqYLxidBkRtVdGjhj++e
-         UPzvekOpskim7vsKqzzybVwjOmsmrDd7exJKJEm5cXPvGDUcbFxkbudvYBvx5L6BAwCi
-         zEWg==
-X-Forwarded-Encrypted: i=1; AL+hErFbN2ZlwxnjNeREopZEEAd0Mj/1TsF39e1VYfu2MKUQ/78XHBJoTkl2iSoLyUhkoBYCGwjSRw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+HkwUliFPERv4I6sbDYId433/H2MTZP+4gNBtHDo4BhnVSmriM
-	gmtUQieP8rFPkm893yR4ImqKjlP4/tExXh1HqG3oPWGeC4KbAYnWBpSgd84X/teFVxj4rxDAfqU
-	RjaQTKlGo7mt68iowpR+HIIemdBemcEyDtqkNw0sU3a3QUj73zXbic6hlNgQ=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D80606A31F
+	for <ntfs3@lists.linux.dev>; Mon, 23 Nov 2026 11:41:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48D80606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=VZA9A8z+
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 8CFFD1D4D;
+	Mon, 23 Nov 2026 11:42:11 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=VZA9A8z+;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 169C8F7;
+	Mon, 23 Nov 2026 11:41:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1795434089;
+	bh=9oFz6UDT8gjmviaKWCp1t0akVQqvfGRhOXiu+f5jWeo=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=VZA9A8z+wHineDXqarlsc1pc2fix7YhKwUB1ZRkQsMhmEpw1LSLuKb24HjGs2EREp
+	 ZOnJPo384wF+KIFvGVvgpJ1qMt3/GJwmCHBdsxdbCdt8Bf0l45ThhsDTN/bzvTnknY
+	 nSJmEhQFshyJDYHYNmXeGKKoTKD7U87T3JXkmjZU=
+Received: from [192.168.95.128] (172.30.20.204) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Mon, 23 Nov 2026 14:41:28 +0300
+Message-ID: <e010d85b-62aa-47db-af91-fb43026c8b65@paragon-software.com>
+Date: Mon, 23 Nov 2026 12:41:26 +0100
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -58,94 +64,162 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:198f:b0:573:7a6b:f33d with SMTP id
- 5614622812f47-57a0ab2f9c8mr12792402b6e.42.1795418153219; Sun, 22 Nov 2026
- 23:15:53 -0800 (PST)
-Date: Sun, 22 Nov 2026 23:15:53 -0800
-In-Reply-To: <20261118132710.29751-1-suruurism@gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6b03e829.a481e175.27cf24.0019.GAE@google.com>
-Subject: [syzbot ci] Re: ntfs3: clear VMA_MAYWRITE on read-only
- compressed-file mmap
-From: syzbot ci <syzbot+cie4518cb24e7c0c99@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev, 
-	stable@vger.kernel.org, suruurism@gmail.com
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] fs/ntfs3: validate target index entry in
+ check_if_alloc_index/check_if_root_index
+To: Tabriz Hasanli <cybersec467@gmail.com>, <linux-kernel@vger.kernel.org>,
+	<ntfs3@lists.linux.dev>
+CC: <w@1wt.eu>
+References: <20260831142344.472594-1-cybersec467@gmail.com>
+ <20260831142344.472594-2-cybersec467@gmail.com>
+Content-Language: en-US
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <20260831142344.472594-2-cybersec467@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-syzbot ci has tested the following series
+On 8/31/26 16:23, Tabriz Hasanli wrote:
 
-[v1] ntfs3: clear VMA_MAYWRITE on read-only compressed-file mmap
-https://lore.kernel.org/all/20261118132710.29751-1-suruurism@gmail.com
-* [PATCH] ntfs3: clear VMA_MAYWRITE on read-only compressed-file mmap
+> check_if_alloc_index() and check_if_root_index() walk the index entry
+> chain to verify that lrh->attr_off lands on a valid entry boundary.
+> However they have two gaps:
+>
+> (a) They do not stop at de_is_last() — they walk past the last real
+>      entry into the trailing gap between the last entry's end and
+>      hdr->used, which check_index_header() leaves unvalidated.
+>
+> (b) They do not validate the TARGET entry at attr_off — the walk exits
+>      as soon as o == attr_off without checking the entry's size, flags,
+>      or bounds.
+>
+> This allows attr_off to point to an attacker-controlled "fake entry"
+> in the trailing gap of a crafted NTFS image's $LogFile.  Four do_action()
+> cases then use the unvalidated entry:
+>
+>    SetIndexEntryVcnAllocation / SetIndexEntryVcnRoot:
+>      de_set_vbn_le() writes 8 bytes at e + e->size - 8.
+>      Crafted e->size yields an 8-byte OOB write up to ~64KB past the
+>      buffer.
+>
+>    UpdateFileNameAllocation / UpdateFileNameRoot:
+>      memmove() writes 56 bytes at a fixed offset from e.  If e is near
+>      the buffer end, this overflows by up to 0x50 bytes.
+>
+> The sibling DeleteIndexEntryAllocation case (commit fc4626bb3656) and
+> UpdateRecordData cases (commit 3e127829e57f) already carry per-site
+> guards for the same class of attack; this patch closes the gap at the
+> validator level so all current and future callers are protected.
+>
+> Fix both functions to:
+>    - stop walking at de_is_last()
+>    - validate the target entry: size is 8-byte aligned, >= minimum
+>      entry size, and does not extend past hdr->used
+>
+> Found by static source analysis and confirmed with userspace ASan
+> harnesses transcribing the kernel's exact validation logic on a
+> 512-byte INDEX_BUFFER with faithful check_index_buffer() geometry.
+>
+> Signed-off-by: Tabriz Hasanli <cybersec467@gmail.com>
+> ---
+>   fs/ntfs3/fslog.c | 42 ++++++++++++++++++++++++++++++++++++------
+>   1 file changed, 36 insertions(+), 6 deletions(-)
+>
+> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
+> index ed50c1d0c..d73e3ff1e 100644
+> --- a/fs/ntfs3/fslog.c
+> +++ b/fs/ntfs3/fslog.c
+> @@ -2953,10 +2953,13 @@ static inline bool check_if_root_index(const struct ATTRIB *attr,
+>          u32 o = PtrOffset(attr, hdr) + de_off;
+>          const struct NTFS_DE *e = Add2Ptr(hdr, de_off);
+>          u32 asize = le32_to_cpu(attr->size);
+> +       u32 used = le32_to_cpu(hdr->used);
+> +       bool has_subnode = hdr_has_subnode(hdr);
+> +       u32 min_de = has_subnode ? sizeof(struct NTFS_DE) + sizeof(u64)
+> +                               : sizeof(struct NTFS_DE);
+> +       u16 esize;
+>
+>          while (o < ao) {
+> -               u16 esize;
+> -
+>                  if (o >= asize)
+>                          break;
+>
+> @@ -2964,11 +2967,24 @@ static inline bool check_if_root_index(const struct ATTRIB *attr,
+>                  if (!esize)
+>                          break;
+>
+> +               if (de_is_last(e))
+> +                       break;
+> +
+>                  o += esize;
+> +               de_off += esize;
+>                  e = Add2Ptr(e, esize);
+>          }
+>
+> -       return o == ao;
+> +       if (o != ao)
+> +               return false;
+> +
+> +       /* Validate the target entry itself. */
+> +       esize = le16_to_cpu(e->size);
+> +       if (!IS_ALIGNED(esize, 8) || esize < min_de ||
+> +           size_add(de_off, esize) > used)
+> +               return false;
+> +
+> +       return true;
+>   }
+>
+>   static inline bool check_if_alloc_index(const struct INDEX_HDR *hdr,
+> @@ -2978,10 +2994,12 @@ static inline bool check_if_alloc_index(const struct INDEX_HDR *hdr,
+>          u32 o = offsetof(struct INDEX_BUFFER, ihdr) + de_off;
+>          const struct NTFS_DE *e = Add2Ptr(hdr, de_off);
+>          u32 used = le32_to_cpu(hdr->used);
+> +       bool has_subnode = hdr_has_subnode(hdr);
+> +       u32 min_de = has_subnode ? sizeof(struct NTFS_DE) + sizeof(u64)
+> +                               : sizeof(struct NTFS_DE);
+> +       u16 esize;
+>
+>          while (o < attr_off) {
+> -               u16 esize;
+> -
+>                  if (de_off >= used)
+>                          break;
+>
+> @@ -2989,12 +3007,24 @@ static inline bool check_if_alloc_index(const struct INDEX_HDR *hdr,
+>                  if (!esize)
+>                          break;
+>
+> +               if (de_is_last(e))
+> +                       break;
+> +
+>                  o += esize;
+>                  de_off += esize;
+>                  e = Add2Ptr(e, esize);
+>          }
+>
+> -       return o == attr_off;
+> +       if (o != attr_off)
+> +               return false;
+> +
+> +       /* Validate the target entry itself. */
+> +       esize = le16_to_cpu(e->size);
+> +       if (!IS_ALIGNED(esize, 8) || esize < min_de ||
+> +           size_add(de_off, esize) > used)
+> +               return false;
+> +
+> +       return true;
+>   }
+>
+>   static inline void change_attr_size(struct MFT_REC *rec, struct ATTRIB *attr,
+> --
+> 2.53.0
 
-and found the following issue:
-WARNING in mmap_validate
+Hello,
 
-Full report is available here:
-https://ci.syzbot.org/series/2cf8a8c7-bfcc-4bcc-bfda-dccd333a025d
+The patch was applied, thank you.
 
-***
+Regards,
+Konstantin
 
-WARNING in mmap_validate
-
-tree:      torvalds
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
-base:      b3f1631d362539cfe14571ccfd7db919ffbc08c7
-arch:      amd64
-compiler:  Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
-config:    https://ci.syzbot.org/builds/92ccdff0-04ed-4a0e-80d7-77102143beb7/config
-syz repro: https://ci.syzbot.org/findings/189d2e19-2002-455d-a0ed-c3a015048eaa/syz_repro
-
-loop0: detected capacity change from 0 to 4096
-ntfs3(loop0): Failed to load $Extend (-22).
-ntfs3(loop0): Failed to initialize $Extend.
-------------[ cut here ]------------
-was_maywrite && !is_maywrite
-WARNING: mm/vma.c:2872 at mmap_validate+0x1c3/0x1e0 mm/vma.c:2872, CPU#1: syz.0.17/5893
-Modules linked in:
-CPU: 1 UID: 0 PID: 5893 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:mmap_validate+0x1c3/0x1e0 mm/vma.c:2872
-Code: 5c 41 5d 41 5e 41 5f 5d e9 1a 34 d8 09 cc e8 e4 8a 98 ff 90 0f 0b 90 eb 1f e8 d9 8a 98 ff 90 0f 0b 90 eb 14 e8 ce 8a 98 ff 90 <0f> 0b 90 eb 09 e8 c3 8a 98 ff 90 0f 0b 90 41 be ea ff ff ff eb bb
-RSP: 0018:ffffc900041ef428 EFLAGS: 00010293
-RAX: ffffffff82309662 RBX: ffffc900041ef9a0 RCX: ffff8881686c3c00
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000200000000001 R08: ffffc900041ef9a7 R09: 1ffff9200083df34
-R10: dffffc0000000000 R11: fffff5200083df35 R12: dffffc0000000000
-R13: 1ffff9200083df34 R14: 0000000000000001 R15: 0000000000000001
-FS:  00007fb956e196c0(0000) GS:ffff8882a7809000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fb955e71a20 CR3: 00000001baeae000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- call_mmap_prepare mm/vma.c:2975 [inline]
- __mmap_region mm/vma.c:3075 [inline]
- mmap_region+0x12d8/0x2800 mm/vma.c:3173
- do_mmap+0xe0a/0x1300 mm/mmap.c:573
- vm_mmap_pgoff+0x27a/0x520 mm/util.c:581
- ksys_mmap_pgoff+0x4dc/0x760 mm/mmap.c:619
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x16a/0x530 arch/x86/entry/syscall_64.c:89
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fb955fa8fd9
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fb956e19028 EFLAGS: 00000246 ORIG_RAX: 0000000000000009
-RAX: ffffffffffffffda RBX: 00007fb956225fa0 RCX: 00007fb955fa8fd9
-RDX: 0000000000000001 RSI: 0000000000400000 RDI: 0000200000000000
-RBP: 00007fb956037fed R08: 0000000000000004 R09: 0000000000000000
-R10: 0000000000010012 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fb956226038 R14: 00007fb956225fa0 R15: 00007ffcdbaed6f8
- </TASK>
-
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
