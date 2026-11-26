@@ -1,41 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=182.48.54.220
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.4
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795616330;
-	b=L8lZOrUuBbFfkScmbgVMKYXodKlDOWmy0eGvbkc3fo0Bgp6xzEhfH9tJAsg4O4fX0/+Q
-	 AOq521wyMvKRuW3PDxDP7sCjO3raKh64965l1Cdjl9xe1nEkGYqBlZhQ303MQlXl27VEW
-	 PJBy1TAiitolizkhHF+sXl/X/SGWEU2yVwbK2igIOo2TvjxymUrUYlNkluAhVrWv9bKfl
-	 Kn/tLVZwvb7Y3cNUGLn00s41jkDGJdezna0oUAhMPxFERk/sB4otNXcFfw0VFafoLjEVV
-	 IoEbJ7M+rUkOQ0Pj8fnq2Emossac1R6Zv4xQNndpnsjhUdEwJlF76D5ENaR2F/rF3Og==
+	t=1795664435;
+	b=dVeY9D/2n23ZMLSvgeYw2jWCG/KeQQNO0FWm/II8Xdv6GZTnZFTKGWvGAparHfX4/Pe4
+	 cWTZJbsHo1VfylicspA/jgLVGcSe61SumJcj2t7uKL2BEpUlPbDwNR/iv0Z548iYe0RC8
+	 3I1tUves96E5eKqzfsZh8bCQCdpASxfLr+JivpBcDpG1SO8ZWRISbuFQHzlaCTG1IeUe6
+	 sAKQuqgeJuBZl9e5Pl3FOWQHn9HJhMJ2HARQoOGGqZ0ogI5oejougUli7UchxBlJLcJVM
+	 gdQPktdaaa5YqVSeQ4xCfr8OqOvK1879eG4nJqIRznoJ+Kq+DGpf7caQ5RoqkrjlwYQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795616330;
-	h=DMARC-Filter:Received:From:Date:To:Cc:Subject:Message-ID;
-	bh=3wOajHH4NzvZvBhjuRIDgAkiOClVftzL+88Gx9NKlJs=;
-	b=n0YL5JV6JEGTB4aw7mckkkFT7Vn18rHGiaq/iZqKPJsusbfeg8PaV1mnJ+F7K/RmD0+e
-	 ec6bEYAkb1IWZxqwuRwd2Ps2/ZUdbAzAIbDXQlx5JRMikngJIXAHkI84HM866gn836Y6h
-	 iJt5hmWYMULX9jtrvyls2His7SJ6ckL6AWUGNLcGslqbriAZzayz69iLBUXeywPMSIaTR
-	 0tJgVL7QWwEvq6lUpOPZTp6pGTmALyvw0zUZVIGV6chCEr+hftGRoY8EkmDYhf96qKXDs
-	 1uPzU8z4t29ctNsgjapsm8736oWPW2yXNLwgkdQBKHQc7Uysvl0rQta1bSDfo49asOQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795664435;
+	h=DMARC-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=zCl4XACFfxLoFxR7/97+DR7w+83N8h8sXqXdDNDJGZ0=;
+	b=sqIMhuBZThexrpBczjDaqGmOAXJcT//VXvxaYPRR8KCoPouAbetxt37Ql9ycpx9hcCUl
+	 p5015LP+iUKDbSAsVvmxMp3xrFu0uII95zXylyeZJXJhXQ2jmnozQX0uTaWB5jXiVA0MP
+	 Qp4wAYfAuumHNZNSteA1PdX7RKiDViJbm8KssiP2SPc8xS62javN8uZJCyP8ctv1+CcaV
+	 l6SW60M60Qa4t5/UvvceFF+qZ4rTAmWs1j8h6LTcoiXTlwZZhLkqPUF2byeAxNX2+OZey
+	 gMphdcec86zSj2+kNYEcYOwNv/etajg15dwm7tADAr6DjuHIkA5Kl28hfqBh99l/gHg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=snowrabbit.org;
-	spf=pass smtp.mailfrom=snowrabbit.org;
-	arc=none smtp.remote-ip=182.48.54.220
-Received: from bambi.snowrabbit.org (bambi.snowrabbit.org [182.48.54.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B57D0606A321
-	for <ntfs3@lists.linux.dev>; Wed, 25 Nov 2026 14:18:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B57D0606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=snowrabbit.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snowrabbit.org
-Received: by bambi.snowrabbit.org (Postfix, from userid 3001)
-	id 17D42C9314; Wed, 25 Nov 2026 23:18:49 +0900 (JST)
-From: Showta Ishizaki <zakinko@snowrabbit.org>
-Date: Wed, 25 Nov 2026 23:18:20 +0900
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=EyQJamoQ;
+	arc=none smtp.remote-ip=117.135.210.4
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEAEF606A33C
+	for <ntfs3@lists.linux.dev>; Thu, 26 Nov 2026 03:40:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AEAEF606A33C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=EyQJamoQ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID; bh=zCl4XACFfxLoFxR
+	7/97+DR7w+83N8h8sXqXdDNDJGZ0=; b=EyQJamoQ/ozvNwlA+xA6aO227a66nU2
+	fQK5LDdd84mg3nME7undIgr/zCvtkKmlq+ALBW4yZ6zYW04zyWUX3qWur9GxMpGR
+	Scz2jnEl8dp2W8me6H24taVlTXLDl140eBLeNkW+ifOVF5jK8oLXTwOrKhpqUsqy
+	LDuPFXNW3zCI=
+From: shaos <shawnq1@163.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev,
-    linux-fsdevel@vger.kernel.org,
-    linux-kernel@vger.kernel.org,
-    Showta Ishizaki <zakinko@snowrabbit.org>
-Subject: [PATCH] fs/ntfs3: fall back to the substitute name of a junction
-Message-ID: <20261125-ntfs3-01a-v1@snowrabbit.org>
+Cc: ntfs3@lists.linux.dev, stable@vger.kernel.org
+Subject: [PATCH] fs/ntfs3: preserve hole marker when trimming a run
+Date: Thu, 26 Nov 2026 03:40:27 GMT
+Message-ID: <179566442733.1993761.672618205872204854@163.com>
+X-CM-TRANSID:PygvCgCH74QrqgdrvLbtIA--.60447S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxWFWUtF18GF13KrWfXr1xuFg_yoW5tr48pF
+	s7AF45Krn0y3W3AwsFqF18Xr909rZ7ta1jka4DJw18uanxJ3WIyFy0k34Yga18Zrs5CrWF
+	vrnYq347uryDZrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UvjgsUUUUU=
+X-CM-SenderInfo: pvkd40jtr6il2tof0z/xtbC8QxSYGsHqiyuJAAA3v
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -45,176 +59,82 @@ List-Unsubscribe: <mailto:ntfs3+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 
-A junction made with "New-Item -ItemType Junction" on Windows has an
-empty print name, and readlink() on it fails with EINVAL, because
-ntfs_readlink_hlp() only looks at the print name.
+Hello,
 
-MS-FSCC 2.1.2.4 and 2.1.2.5 give a substitute name beside it.  Use that
-when the print name is empty, without the \??\ that starts it.  A
-symlink with an empty print name gets the same.
+When run_unpack() starts decoding at a VCN inside a mapping-pairs run,
+it trims the already-consumed clusters from that run. For a sparse run,
+the LCN is SPARSE_LCN64. Adding the skipped cluster count to that
+sentinel changes it into a non-sparse value, and run_add_entry() then
+maps the remaining hole to physical cluster zero.
 
-On a volume made on Windows Server 2025, readlink() of such a junction
-returned EINVAL.  With the patch it gives the translated path and the
-link can be followed.
+On a crafted NTFS volume, an unprivileged writer can trigger this by
+writing across a split $DATA attribute. A subsequent read returns
+NTFS boot-sector bytes where the file contains a sparse hole. The
+reproducer demonstrates disclosure of volume data; it does not
+demonstrate arbitrary memory disclosure or privilege escalation.
 
-Signed-off-by: Showta Ishizaki <zakinko@snowrabbit.org>
+HEAD commit:    8d7fe9885c62fc9a95bf55d9db244d9672a8aadc
+Git tree:       fe970b05333fb8e41da21e9e289f652abcc7cba7
+Source version: Linux 7.4.0-rc4
+Compiler:       gcc 11.4.0, GNU ld 2.38
+Test runtime:   QEMU 6.2.0, x86-64 TCG
+
+The evidence and reproduction helpers are in this unlisted Gist:
+
+https://gist.github.com/shaos26/d1f7fc9e3398d728f104867ea1880df6
+
+Console output:
+https://gist.githubusercontent.com/shaos26/d1f7fc9e3398d728f104867ea1880df6/raw/5b1ad414981bb3f8f2ab77862441dc81db6c2b50/console-output.txt
+Exact console bytes (base64):
+https://gist.githubusercontent.com/shaos26/d1f7fc9e3398d728f104867ea1880df6/raw/5b1ad414981bb3f8f2ab77862441dc81db6c2b50/console-output.raw.b64
+Kernel config:
+https://gist.githubusercontent.com/shaos26/d1f7fc9e3398d728f104867ea1880df6/raw/5b1ad414981bb3f8f2ab77862441dc81db6c2b50/kernel-config.txt
+PoC source:
+https://gist.githubusercontent.com/shaos26/d1f7fc9e3398d728f104867ea1880df6/raw/5b1ad414981bb3f8f2ab77862441dc81db6c2b50/poc.c
+
+The readable console file escapes the non-UTF-8 bytes printed from the
+boot sector; the base64 file preserves the original console bytes.
+
+Clone the fixed Gist revision and run the vulnerable positives and
+boundary control with:
+
+    git clone https://gist.github.com/d1f7fc9e3398d728f104867ea1880df6.git repro
+    git -C repro checkout 5b1ad414981bb3f8f2ab77862441dc81db6c2b50
+    chmod +x repro/*.sh
+    ./repro/reproduce.sh
+
+This runs two fresh vulnerable positives and the split-boundary
+control. The patched-kernel trigger and boundary controls are included
+in the console log. The vulnerable runs each returned
+3935/4096 zero bytes and identified the remaining 353-cluster hole as
+physical LCN 0. The boundary control returned 4096/4096 zero bytes.
+With this patch, the same trigger image returned 4096/4096 zero bytes,
+and MFT inspection showed the run remained sparse.
+
+Fixes: 4342306f0f0d ("fs/ntfs3: Add file operations and implementation")
+Cc: stable@vger.kernel.org
+Signed-off-by: shaos <shawnq1@163.com>
+
 ---
- fs/ntfs3/inode.c | 119 +++++++++++++++++++++++++++++++++++++----------
- 1 file changed, 95 insertions(+), 24 deletions(-)
+ fs/ntfs3/run.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
-index 86d9ba8..1e99620 100644
---- a/fs/ntfs3/inode.c
-+++ b/fs/ntfs3/inode.c
-@@ -2133,6 +2133,94 @@ out:
- 	return err;
- }
+diff --git a/fs/ntfs3/run.c b/fs/ntfs3/run.c
+index 6e3ef89fc6660..d51d953f65c4a 100644
+--- a/fs/ntfs3/run.c
++++ b/fs/ntfs3/run.c
+@@ -1151,8 +1151,9 @@ int run_unpack(struct runs_tree *run, struct ntfs_sb_info *sbi, CLST ino,
+ 		} else if (next_vcn > vcn) {
+ 			u64 dlen = vcn - vcn64;
  
-+/*
-+ * ntfs_link_target - Locate the target name of a junction or symlink.
-+ * @rp:		reparse data, @size bytes long.
-+ * @ulen:	returns the length of the name in bytes.
-+ * @nt_path:	set when the name is the substitute name, which Windows
-+ *		writes as an NT path such as \??\C:\dir.
-+ *
-+ * MS-FSCC 2.1.2.4 and 2.1.2.5 give both a substitute name and a print
-+ * name.  The print name is the one meant for display and SHOULD be
-+ * present, but it may be empty: Windows leaves it empty on a junction
-+ * made with New-Item -ItemType Junction.  Fall back to the substitute
-+ * name then.
-+ *
-+ * Return: the name, or NULL if the tag is neither of the two or the
-+ * buffer is too short to hold its header.
-+ */
-+static const __le16 *ntfs_link_target(const struct REPARSE_DATA_BUFFER *rp,
-+				      u64 size, u16 *ulen, bool *nt_path)
-+{
-+	size_t path;
-+	u16 sub_off, sub_len, print_off, print_len;
-+
-+	switch (rp->ReparseTag) {
-+	case IO_REPARSE_TAG_MOUNT_POINT: {
-+		const typeof(rp->MountPointReparseBuffer) *mp =
-+			&rp->MountPointReparseBuffer;
-+
-+		path = offsetof(struct REPARSE_DATA_BUFFER,
-+				MountPointReparseBuffer.PathBuffer);
-+		if (size <= path)
-+			return NULL;
-+		sub_off = le16_to_cpu(mp->SubstituteNameOffset);
-+		sub_len = le16_to_cpu(mp->SubstituteNameLength);
-+		print_off = le16_to_cpu(mp->PrintNameOffset);
-+		print_len = le16_to_cpu(mp->PrintNameLength);
-+		break;
-+	}
-+
-+	case IO_REPARSE_TAG_SYMLINK: {
-+		const typeof(rp->SymbolicLinkReparseBuffer) *sl =
-+			&rp->SymbolicLinkReparseBuffer;
-+
-+		path = offsetof(struct REPARSE_DATA_BUFFER,
-+				SymbolicLinkReparseBuffer.PathBuffer);
-+		if (size <= path)
-+			return NULL;
-+		sub_off = le16_to_cpu(sl->SubstituteNameOffset);
-+		sub_len = le16_to_cpu(sl->SubstituteNameLength);
-+		print_off = le16_to_cpu(sl->PrintNameOffset);
-+		print_len = le16_to_cpu(sl->PrintNameLength);
-+		break;
-+	}
-+
-+	default:
-+		return NULL;
-+	}
-+
-+	*nt_path = !print_len;
-+	if (*nt_path) {
-+		*ulen = sub_len;
-+		return Add2Ptr(rp, path + sub_off);
-+	}
-+	*ulen = print_len;
-+	return Add2Ptr(rp, path + print_off);
-+}
-+
-+/*
-+ * ntfs_strip_nt_prefix - Drop the \??\ that starts an NT path.
-+ * @name:	link target, already with '\' turned into '/'.
-+ * @len:	its length, not counting the terminating zero.
-+ *
-+ * MS-FSCC does not define this prefix; it is what Windows writes in a
-+ * substitute name.  Without it the name reads like a print name.
-+ *
-+ * Return: the new length.
-+ */
-+static int ntfs_strip_nt_prefix(char *name, int len)
-+{
-+	static const char prefix[] = "/??/";
-+	const int prefix_len = sizeof(prefix) - 1;
-+
-+	if (len < prefix_len || memcmp(name, prefix, prefix_len))
-+		return len;
-+
-+	memmove(name, name + prefix_len, len - prefix_len + 1);
-+	return len - prefix_len;
-+}
-+
- static noinline int ntfs_readlink_hlp(const struct dentry *link_de,
- 				      struct inode *inode, char *buffer,
- 				      int buflen)
-@@ -2146,6 +2234,7 @@ static noinline int ntfs_readlink_hlp(const struct dentry *link_de,
- 	void *to_free = NULL;
- 	struct REPARSE_DATA_BUFFER *rp;
- 	const __le16 *uname;
-+	bool nt_path = false;
- 	struct ATTRIB *attr;
+-			if (!run_add_entry(run, vcn, lcn + dlen, len - dlen,
+-					   is_mft))
++			if (lcn != SPARSE_LCN64)
++				lcn += dlen;
++			if (!run_add_entry(run, vcn, lcn, len - dlen, is_mft))
+ 				return -ENOMEM;
+ 		}
  
- 	/* Reparse data present. Try to parse it. */
-@@ -2187,32 +2276,11 @@ static noinline int ntfs_readlink_hlp(const struct dentry *link_de,
- 	/* Microsoft Tag. */
- 	switch (rp->ReparseTag) {
- 	case IO_REPARSE_TAG_MOUNT_POINT:
--		/* Mount points and junctions. */
--		/* Can we use 'Rp->MountPointReparseBuffer.PrintNameLength'? */
--		if (size <= offsetof(struct REPARSE_DATA_BUFFER,
--				     MountPointReparseBuffer.PathBuffer))
--			goto out;
--		uname = Add2Ptr(rp,
--				offsetof(struct REPARSE_DATA_BUFFER,
--					 MountPointReparseBuffer.PathBuffer) +
--					le16_to_cpu(rp->MountPointReparseBuffer
--							    .PrintNameOffset));
--		ulen = le16_to_cpu(rp->MountPointReparseBuffer.PrintNameLength);
--		break;
--
- 	case IO_REPARSE_TAG_SYMLINK:
--		/* FolderSymbolicLink */
--		/* Can we use 'Rp->SymbolicLinkReparseBuffer.PrintNameLength'? */
--		if (size <= offsetof(struct REPARSE_DATA_BUFFER,
--				     SymbolicLinkReparseBuffer.PathBuffer))
-+		/* Mount points, junctions and symbolic links. */
-+		uname = ntfs_link_target(rp, size, &ulen, &nt_path);
-+		if (!uname)
- 			goto out;
--		uname = Add2Ptr(
--			rp, offsetof(struct REPARSE_DATA_BUFFER,
--				     SymbolicLinkReparseBuffer.PathBuffer) +
--				    le16_to_cpu(rp->SymbolicLinkReparseBuffer
--							.PrintNameOffset));
--		ulen = le16_to_cpu(
--			rp->SymbolicLinkReparseBuffer.PrintNameLength);
- 		break;
- 
- 	case IO_REPARSE_TAG_CLOUD:
-@@ -2281,6 +2349,9 @@ static noinline int ntfs_readlink_hlp(const struct dentry *link_de,
- 	/* Always set last zero. */
- 	buffer[err] = 0;
- 
-+	if (nt_path)
-+		err = ntfs_strip_nt_prefix(buffer, err);
-+
- 	/* If this is a junction, translate the link target. */
- 	if (rp->ReparseTag == IO_REPARSE_TAG_MOUNT_POINT)
- 		err = ntfs_translate_junction(sb, link_de, buffer, err, buflen);
 -- 
-2.54.0 (Apple Git-157)
+2.34.1
 
