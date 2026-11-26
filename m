@@ -1,60 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.157.23.187
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795706177;
-	b=cSQcsHZP9xwxV6IXE5igcJKIXDGaCtGfK2opgEx4YaoTRUUoClUUSXTBgFBc2MeST927
-	 yAR0tcFsu5+rMKEAW0l74dVtZKRzunsW0VhVPJ4w2Z1Yk+9zKUl/5Xj7Dnbe+40hbIq88
-	 ts7rL4Ug3qwqofZMwV0/u2g3b758QaBtu4eUv7HIYWJLmiFxaCY7wCMy4Bu5XdLKQICbt
-	 FZA/GpXQpFH2W/YjgOx2lOYYCF6ZjhDUSqMX1UZKi/HXtC3cE7Wk6JfJKxoK5fwPGgpuD
-	 K2jl410pvFCgFWeXEzNdc4IMQPQYnTjxte9tJf1USJtnrSMiv5PAvqm4yWGh6u2jQpg==
+	t=1795707335;
+	b=Sv8rnq71240EI/UrWJBdKq0TtkleqlBXD+gqw6TBePyHlbB/PixbYf9SbF0wjTqfecrF
+	 Fk/8hjIVq6VX5xQsFn0o7Q5YVdlYtva/cW7NPgFF8Gzby27SUfe9k0P8sBCu44urwbvy9
+	 cEGWVyeyLDWSBc+8iTHI1DjOY3yHjvLHg6Z2OvW4+8zN6yZiATTOoomBjYSTk2ZTa8EQL
+	 Sgg4VvnwW+Hrkua48nJ+Y7lxKrTuBfaX2jF0P3cN0OndEA/4qCD8BIQ/tCzFv3X/9qAE2
+	 Mq2f2ZsMvySViipDxV3WaZehftOFhLwwUpsy5iWh1Eq5VZDHwGHnoroIwPqLuLuHUQQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795706177;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795707335;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:Received:Message-ID:
 	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
 	 Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-	bh=8Hlh0el6b76DVPPCih0A1ziKHvFdtHwFJVd3gkLvbCo=;
-	b=Q99bOh2/pkRUTi7TkWRBmbcLbGxmaxOy8FDlTMiI5d11RPKxFUbc7WnhDavmXU8yDEtw
-	 UoNBO47GKg+xdB2MW001gUk63IFFYdSBgJOphfdKQCeZaz97m1/ivBNzhmFWebLjcX7J3
-	 RDKYXPv1zNKOCvNsOYWxVEWCs7Jo9UYnHlPSBQ1Fv9ygdqGLL+dauWQP8aNth+WpHoOfc
-	 bvGlc2SeyPVYAWiICUfM5kX+lZ91NeO7nkBMR1jotgcfE3aNu2ix5fGFlxLaXc/2i4jJU
-	 5jdBvDAy4rZod7GS3Um26MIuVVHOxEfzH1w5S5uA7vOCwb0lx87GWPhHViWChUXmMNw==
+	bh=kdF7OwDmtb5Db3bRFDZ54dVkDzCQ2Q82JGknG1Npy3A=;
+	b=Iheva5xgPJi5BpWkVZz6Pr+yEbZSMytk3jOHNrYNyt9l4WXeu/AzOWXh9KDRvrY+8dBd
+	 9KmRw9WkxIwESGGmCpfSzJbiVhgbc01dCKAeQQdh3MQlVKOtvDrp32JUAE26YzjP3hDVT
+	 eBYXlQsOD5nmI4xwLjvX+hd3e/jsijle/by+/X3ga2QLTItyOvVC/4agUPDBTht1HbFcN
+	 mbllZu6WD06TtxCj54DA3jkFjtJ2zddVTO7gyJUowWawwiZvlVYhumq+F1bBwFvTETkdW
+	 fSHmTFyNHPybY0G6rIqDMgZDeassyqMRH17SjjfVegsLohikMeIvNrcK+GftRJ5dGXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=paragon-software.com;
 	spf=pass smtp.mailfrom=paragon-software.com;
-	dkim=pass header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=YCpgWGZ5;
+	dkim=pass header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=IWvBFtSN;
 	arc=none smtp.remote-ip=35.157.23.187
 Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49BD7606A31C
-	for <ntfs3@lists.linux.dev>; Thu, 26 Nov 2026 15:16:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49BD7606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C88D606A33D
+	for <ntfs3@lists.linux.dev>; Thu, 26 Nov 2026 15:35:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C88D606A33D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=YCpgWGZ5
+	dkim=pass (1024-bit key, unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.a=rsa-sha256 header.s=mail header.b=IWvBFtSN
 Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 596061D38;
-	Thu, 26 Nov 2026 15:16:57 +0000 (UTC)
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 309F31D38;
+	Thu, 26 Nov 2026 15:36:14 +0000 (UTC)
 Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=YCpgWGZ5;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=IWvBFtSN;
 	dkim-atps=neutral
 Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 8A96A2092;
-	Thu, 26 Nov 2026 15:16:15 +0000 (UTC)
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 569892092;
+	Thu, 26 Nov 2026 15:35:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1795706175;
-	bh=8Hlh0el6b76DVPPCih0A1ziKHvFdtHwFJVd3gkLvbCo=;
+	d=paragon-software.com; s=mail; t=1795707332;
+	bh=kdF7OwDmtb5Db3bRFDZ54dVkDzCQ2Q82JGknG1Npy3A=;
 	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=YCpgWGZ59cjZCR5jN3dG615kSVLYt4xC1U8D2oQmHJ0LqG5Yos95y4uDuktFS3bDU
-	 04MwcHiTkr2029Ytp1SlfVFU8VJANpNkz9D4r55EEkTTY+LewbafH9ufwhYqG9QT3k
-	 +3Gg36b4xSi4fB9QZkBsS8xTcrOai0EoTI4u7JfE=
+	b=IWvBFtSNEUSV/fM3UG9eXpmF9zw+JcpeJwrizGpUqAZulf7tT7nwrtikpq3cSJqQw
+	 kX5uFVybDKHLNeuoDocGMycDXdGuQPhzzprqwQgtSIwkvDsuHqi/IYMCXbWoABv0UT
+	 op13RYRuB9D97l4wTwzYQ9BjaeNQuBPEq7dWrM5Y=
 Received: from [192.168.95.128] (172.30.20.193) by
  vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Thu, 26 Nov 2026 18:16:14 +0300
-Message-ID: <9aa9b7b5-63d3-4b18-8342-96a639c07fcd@paragon-software.com>
-Date: Thu, 26 Nov 2026 16:16:13 +0100
+ 15.1.2375.7; Thu, 26 Nov 2026 18:35:31 +0300
+Message-ID: <26e97827-8544-459a-94c0-cb53f76bd0fd@paragon-software.com>
+Date: Thu, 26 Nov 2026 16:35:30 +0100
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -65,76 +65,96 @@ List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/ntfs3: bound asize by SIZEOF_NONRESIDENT in
- check_attr()
-To: Zhan Xusheng <zhanxusheng1024@gmail.com>
-CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<zhanxusheng@xiaomi.com>, <stable@vger.kernel.org>
-References: <20260904065437.957677-1-zhanxusheng@xiaomi.com>
+Subject: Re: [PATCH ntfs] fs/ntfs3: fix out-of-bounds write in UpdateFileName
+ replay
+To: Xue Boyang <fuchen.dust@gmail.com>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+References: <20260929090452.224281-1-fuchen.dust@gmail.com>
 Content-Language: en-US
 From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260904065437.957677-1-zhanxusheng@xiaomi.com>
+In-Reply-To: <20260929090452.224281-1-fuchen.dust@gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
  vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 9/4/26 08:54, Zhan Xusheng wrote:
+On 9/29/26 11:04, Xue Boyang wrote:
 
-> check_attr() validates a file record attribute during log replay.  Its
-> non-resident branch reads through attr->nres.valid_size, which ends
-> SIZEOF_NONRESIDENT bytes into the attribute, but only checks that the
-> attribute fits the record, not that it is long enough to hold those
-> fields.  check_file_record() admits an attribute starting as late as
-> record_size - SIZEOF_RESIDENT, so one placed there with non_res set reads
-> up to 40 bytes past mi->mrec, a kmalloc(record_size) buffer.  The later
-> "run_off >= asize" rejection is too late: data_size, svcn, evcn and
-> valid_size have already been read.  Nothing earlier covers it, mi_read()
-> checks only rec->total, and do_action() gets here for the ordinary
-> record-modifying operations, so a crafted volume reaches it through
-> normal replay.
+> During $LogFile replay, do_action()'s UpdateFileNameRoot and
+> UpdateFileNameAllocation cases write sizeof(NTFS_DUP_INFO) = 0x38 bytes
+> into the ATTR_FILE_NAME structure that follows the target index entry:
 >
-> Reject an attribute that leaves fewer than SIZEOF_NONRESIDENT bytes in the
-> record, as mi_enum_attr() already does outside the log path.  A real
-> non-resident attribute cannot be smaller than its own header, so nothing
-> that mounts today is rejected.
+>          e = Add2Ptr(attr, le16_to_cpu(lrh->attr_off));
+>          fname = (struct ATTR_FILE_NAME *)(e + 1);
+>          memmove(&fname->dup, data, sizeof(fname->dup));
 >
-> Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
+> The gates that run before the write (check_if_index_root and
+> check_if_root_index) only validate that the record and entry offsets
+> land on boundaries.  Neither checks that the entry's key_size is large
+> enough to hold a struct ATTR_FILE_NAME, whose minimum size is
+> SIZEOF_ATTRIBUTE_FILENAME (0x44).  de_get_fname() applies exactly this
+> check at every other call site; the replay path omits it.
+>
+> With a crafted $LogFile whose UpdateFileNameRoot record points at a
+> 16-byte entry with key_size = 0 placed at the end of a crafted $I30
+> INDEX_ROOT, the write lands past the end of the kmalloc(record_size)
+> MFT record allocation:
+>
+>    BUG: KASAN: slab-out-of-bounds in do_action+0x14af/0x1d35
+>    Write of size 56 at addr ffff888004046be8 by task mount/71
+>     ...
+>     __asan_memmove+0x3c/0x60
+>     do_action+0x14af/0x1d35
+>     log_replay (fs/ntfs3/fslog.c)
+>     ntfs_loadlog_and_replay+0x2cb/0x300
+>     ntfs_fill_super+0x1375/0x22d0
+>     ...
+>
+> The write content is fully attacker-controlled (redo data from the log
+> record) and the trigger is deterministic on every rw mount, no race.
+>
+> Reject the operation when key_size is below SIZEOF_ATTRIBUTE_FILENAME
+> in both cases, matching de_get_fname().
+>
+> Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS3 filesystem")
+> Assisted-by: GLM:zhipu-coding-plan/glm-5.3
+> Signed-off-by: Xue Boyang <fuchen.dust@gmail.com>
 > ---
-> Reproduced with ASAN in a userspace replica of the layout and of
-> check_attr()'s bounds: an attribute at record_size - SIZEOF_RESIDENT
-> gives "READ of size 8 ... located 24 bytes after 1024-byte region",
-> and is rejected once the guard is added.
->
-> I did not craft a volume, so there is no mount-level reproducer and no
-> KASAN splat from a real replay; the reachability above comes from
-> reading do_action(), mi_read() and ntfs_fix_post_read().
->
->   fs/ntfs3/fslog.c | 3 +++
->   1 file changed, 3 insertions(+)
+>   fs/ntfs3/fslog.c | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
 >
 > diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-> index ed50c1d0c23e..034d72929ac0 100644
+> index 498f63da2b96..ba61767cab3f 100644
 > --- a/fs/ntfs3/fslog.c
 > +++ b/fs/ntfs3/fslog.c
-> @@ -2772,6 +2772,9 @@ static inline bool check_attr(const struct MFT_REC *rec,
->   		break;
->   
->   	case 1:
-> +		if (asize < SIZEOF_NONRESIDENT)
-> +			return false;
-> +
->   		dsize = le64_to_cpu(attr->nres.data_size);
->   		svcn = le64_to_cpu(attr->nres.svcn);
->   		evcn = le64_to_cpu(attr->nres.evcn);
+> @@ -3557,8 +3557,10 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+>                  }
 >
-> base-commit: a500db7819c50db59e55f1b4fa1c3baa5a2616f3
+>                  e = Add2Ptr(attr, le16_to_cpu(lrh->attr_off));
+> +               if (le16_to_cpu(e->key_size) < SIZEOF_ATTRIBUTE_FILENAME)
+> +                       goto dirty_vol;
+>                  fname = (struct ATTR_FILE_NAME *)(e + 1);
+> -               memmove(&fname->dup, data, sizeof(fname->dup)); //
+> +               memmove(&fname->dup, data, sizeof(fname->dup));
+>                  mi->dirty = true;
+>                  break;
+>
+> @@ -3742,6 +3744,8 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
+>                          goto dirty_vol;
+>                  }
+>
+> +               if (le16_to_cpu(e->key_size) < SIZEOF_ATTRIBUTE_FILENAME)
+> +                       goto dirty_vol;
+>                  fname = (struct ATTR_FILE_NAME *)(e + 1);
+>                  memmove(&fname->dup, data, sizeof(fname->dup));
+>
+> --
+> 2.53.0
 
 Hello,
 
-The patch is applied, thanks.
+Thanks for the patch. Yunpeng Tian already addressed the same issue in
+commit be477eb99013 (“fs/ntfs3: require a FILE_NAME key before the UpdateFileName* replay copy”).
 
 Regards,
 Konstantin
