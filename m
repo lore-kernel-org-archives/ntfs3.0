@@ -1,74 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.252
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.4
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795773554;
-	b=SBDXI8eOrwuPlV8GiRRAp9NqBlleMk4YezJBmF+aEHgZFfIrdDIk1RSBXbjPPqyKL1SS
-	 40juP/S1MLrj/pTaC2G6DJBzok3o5FeupoAtcn6UdINXuvhUq9L0v1YH95CrTOvxFOvgO
-	 9xrZgalg7fZlUz1i3apQu9sKfNtdu2vCtU/wxfZNXLat8HOsw4d8WKLtXHp+sz7uIQ+iS
-	 JDh3c0vAlNXlyxaO6wyKzepd5/TGkrcnd3/mrZYkd/StzX6sVSuoVdO0He/OncRo1OLAT
-	 G5+imlwI+I37YKaXLnalwZoZqDAVLZ2N6LMHW3y8bOCrrpv+zA7H3zDgs8s0rpshUuQ==
+	t=1795854519;
+	b=h+AQdWr0K0wg6fvU/HV92d/0MyrQOX5iYARAQGpSY0kZbi2oQwPvNXXbOzk0zWbOGKGq
+	 TJGupDYhKiZCW9SlrQPOe63mZxQa/Xx/10WjEvOrvd9fID039be7baz4DCsdT7lSO19wS
+	 bPySIlzp7yrVbZCoX+Jf8khchYlVsC3ERPREobogq7NZWYbuw/dgH+b5ZUWjskDkyTsiV
+	 eiTrfYKmPL2fN1PrC8aF0b6Uo9PJiYWrw9w0eVVeFoyHdmmtpeTN9LfM4R1kTahnOwFQV
+	 6L2dupypEyTMsaqKWXirmzdv5XdWQgxuOV8TA5vIOeNjVkXjFMacgme6Q6uKDXDB2BQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795773554;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=baJ0mjyslci1WDPJ+WAvlMf5kc9rL/LQw0lo569JThw=;
-	b=lgYc/2lYqrOHNwGhhAwXF9iRgxuoy4YXN2B2q97OAMGQhZJCBue70CKsHqISAYLBFzRY
-	 fW63YviTtjxq6RPBjUwn8btJUoGMYiWu1tHUuh6DcvZvaKcZyTp2kJi/xC1ffDKdCpZsv
-	 w3ugSTzKgBngqfn+RcZDN1F1FHBbhKbcLa4t16QCjYNeudN3rlJnTY0cnT5tlcJpZdvc6
-	 UmaTIsC/J6Hly5Q6NZnUPEueFmOmgKvpSO9XsZ7gFbiSqqWFhcDKFOrOisIN/eZXvnRMq
-	 ZtnBc6MG2vXS9x3qGT2rQG4QHc8cFNmcTaTl5DKL/W+EKuvY02ThMAUnWzyH9+ToVkw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795854519;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=7XF51mOXbIliBzKF2FUnifL7aWs0RRs0hg4W5lQZKds=;
+	b=F1DwF9XSV7InEnx+4WTY5Vi5k9KwZB2VGQHtfmHaQXHw+19+spGwK+qZ//5wRqx4H227
+	 g4tzjQvdrjvK0DLUt2lagg57GmYxNgVoqoXVOr8DmruvCLcvhPp6CZWpG1hjlh5vL9yju
+	 tRFjdDOrBcrYPuDSnjgOhcesrdhbcZm+LDSQdxKP+2bykgEn+BR9Pa4G7sAgJInYfWScb
+	 Ca4ElUr8/9KgJHc6+nVrUF2PC7fgIygcV5wayFw46ekWGG1lOHNMNLfs9mDDdAnn9Tu0a
+	 dMHmrYvJjrAJSi8RVcO69UHvvwzYAs0QbMxx9nLMRUYBWuWqaCkiLsjWpZmPWjnhHmg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=bPXTnPmy;
-	arc=none smtp.remote-ip=162.62.57.252
-Received: from out162-62-57-252.mail.qq.com (out162-62-57-252.mail.qq.com [162.62.57.252])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=BoTYJv5N;
+	arc=none smtp.remote-ip=220.197.31.4
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F2B606A69B
-	for <ntfs3@lists.linux.dev>; Fri, 27 Nov 2026 09:59:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24F2B606A69B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48801606A680
+	for <ntfs3@lists.linux.dev>; Sat, 28 Nov 2026 08:28:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48801606A680
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=bPXTnPmy
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1795773538; bh=baJ0mjyslci1WDPJ+WAvlMf5kc9rL/LQw0lo569JThw=;
-	h=From:To:Cc:Subject:Date;
-	b=bPXTnPmy/W6KudIujZzit3pDAEr8pWumOZWpGLDIFHCP6mos/eoX4TAFYT0GAZrQM
-	 hgc7M5KCEIxyEidh4uSMFrLJe44g07e1FHMLieQJoFWy6U2rE0zh2Q6xchdojxSeK7
-	 hoDvq23bvi13zWfFWvkIALT+iAIX4BVEUIDLNtDI=
-Received: from shuai-VMware-Virtual-Platform.. ([39.165.245.102])
-	by newxmesmtplogicsvrszb43-0.qq.com (NewEsmtp) with SMTP
-	id EB83566F; Fri, 27 Nov 2026 17:58:56 +0800
-X-QQ-mid: xmsmtpt1795773536t7hof9yn8
-Message-ID: <tencent_17D1FD4EFA98C54A1EA1E90D37406C602205@qq.com>
-X-QQ-XMAILINFO: OVFdYp27KdlJQ6Sfm5w8eYU/Xk+Y1uGIhZj1xhO5GXZdFMMMFadOMDiz1w59Dc
-	 Mh8IqvXH8lV8GTB9yHoAS3y2hdTDfsqaXM08duaBAHwr2Z3nn0sLB4zPHKsHNzeRil7FL4+KYKy9
-	 F6gpOrI9bJap/oHnvXiWSro8R58kO8qEC7ToLszQ4tq/Ev6zAUyCv/zfvZa6nMR19Jzn17brkPP8
-	 6HCA9/byNxNT41Cvzir86Ei3iZPJozJoo8acRhee3QwTLx8dXVZHVV6QMWx1gOQW8BEOQHuNHIT0
-	 eH6v7Vb/EVhEgK54++5niZM5sK0R8gtdqd/+PJT0VIhJ/XLuXyMZyYi6gD2KXdnxSw+VzZHZTwww
-	 S1htuhzXjaUV0bRoiexdvh6zvfLwrAvk/81rZWRGCUPW/h/EsXk+0xnZStJsJgON98DKfobakfUz
-	 IJx2gv5N5huboB6tJ89Ihol6P+UZqdVud3egh+QUtmpDqG4rJ4wMt41eqbRiII1ocFgSlthdSl5C
-	 dnkePYsMwMryOc4pmrXPcyUpT63HwlYo7OfgVX1A5z3QM2ZYa/dpSL/c1aNhHKGb7VrvXU4s8JEa
-	 Ms72KWt3h59iqAkJvxuY8slDLN+BQIderrDQ8Jxg52SvpFjkR27Fi6AvnDFUzkQIBzhCuniHG9ro
-	 71t6WwN9zFjIcmRZTFLLMhkPDF8VjSx15ed/gAqmNH862zFJPf0WEz81b5lLWd6mJM0lquqMnDXD
-	 LdBjQQ8xVI9Ej3pfIijK5MR/og+vdnNp7kD7ceiUbZbPQ/3vrZfWiPobaJY1F2aASh/M0jD5UKHO
-	 XMiVA/7kU2kpL5gCb7et/moYyhJyTgOQrXkxi8Gh1YYSlq8jMegCJus3SRk7cBrgMvmto/OUyx+V
-	 DIOPdJJRNE6/nAzMFnauYlg5poH+LW1eJYo/2fVqHvpyiGen2iv/Otix9itWwUFHTdakH/HOOAJe
-	 t24dAPHaYtPlV8L9TcBswH8MkYSB+rgLCkuilPtPGEg9qhodEeIyoQsRC+K1BSJVjdrzFGsfukFb
-	 2la3AqqHy3hBIGFeXNnjdRPx+R+4venb2BNOuba1w7pmL+9NzdrNbeKLTAFcujvVxX0esGug==
-X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
-From: Shuai Liu <847807867@qq.com>
-To: ntfs3@lists.linux.dev
-Cc: almaz.alexandrovich@paragon-software.com,
-	linux-kernel@vger.kernel.org,
-	syzbot+d7aeb9ab7b1cc022914e@syzkaller.appspotmail.com,
-	Shuai Liu <847807867@qq.com>
-Subject: [PATCH] fs/ntfs3: handle proc_create_data() failure in ntfs_create_procdir()
-Date: Fri, 27 Nov 2026 17:58:56 +0800
-X-OQ-MSGID: <20261127095856.770026-1-847807867@qq.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=BoTYJv5N
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=7X
+	F51mOXbIliBzKF2FUnifL7aWs0RRs0hg4W5lQZKds=; b=BoTYJv5NCZSUpi+W7o
+	alb6kkSWz5pN5itMyJPYIr1A6I7rr2U5EL/wr73GZ1hcNSIK2qo7+6XapmrNEUzQ
+	An5GDkIReIuHj7eChSn9tiqTUbfyUHkDXc6avCL3LK8d3vVVFbrPcUTXV6b/PgYW
+	mAhm68mHrV9Dhcsmy8ygtfGwo=
+Received: from shaos.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wD3H8OqkAprXBpeKw--.40085S2;
+	Sat, 28 Nov 2026 16:28:27 +0800 (CST)
+From: shaos <shawnq1@163.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] fs/ntfs3: check fnd_push() return value
+Date: Sat, 28 Nov 2026 08:28:25 +0000
+Message-Id: <20261128082825.3074946-1-shawnq1@163.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: ntfs3@lists.linux.dev
 List-Id: <ntfs3.lists.linux.dev>
 List-Post: <mailto:ntfs3@lists.linux.dev>
@@ -79,63 +60,136 @@ List-Owner: <mailto:ntfs3+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3H8OqkAprXBpeKw--.40085S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxtr1xXw17Cr1kAr1xuw1xZrb_yoW7XrW5p3
+	9akFn5Kr1IyFWkJws2kF409F4fuwn3C3yUJF4UXws7uw4aqr1xXFn5Kw109F47XrZ5WFWF
+	va1jva48Jay5XaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UFJmUUUUUU=
+X-CM-SenderInfo: pvkd40jtr6il2tof0z/xtbC8QuruWsKkKtghwAA3V
 
-proc_create_data() may fail and return NULL, but ntfs_create_procdir()
-assigned sbi->procdir unconditionally.  This let ntfs_remove_procdir()
-call remove_proc_entry() for missing entries, triggering a WARNING
-at fs/proc/generic.c:742.
+Hello,
 
-Check both proc_create_data() results.  If either fails, remove the
-one that succeeded plus the parent dir and leave sbi->procdir NULL.
+indx_get_entry_to_replace() ignores the return value of fnd_push().
+fnd_push() returns -EINVAL when the search path reaches the capacity of
+fnd->nodes, without taking ownership of the node passed to it.
 
-Reported-by: syzbot+d7aeb9ab7b1cc022914e@syzkaller.appspotmail.com
-Fixes: 7832e123490a ("fs/ntfs3: Add support /proc/fs/ntfs3/<dev>/volinfo and /proc/fs/ntfs3/<dev>/label")
-Signed-off-by: Shuai Liu <847807867@qq.com>
+A crafted NTFS index can make the replacement search follow a self-
+referential VCN.  Once the path is full, each iteration allocates another
+index node, fails to add it to fnd, and leaks it.  The unlink operation
+then spins in the loop while kmalloc-4k usage grows continuously.
+
+The existing NULL check for hdr_first_de() does not handle this case.  A
+related check in indx_find() from commit 1732053c8a6b ("fs: ntfs3: check
+return value of indx_find to avoid infinite loop") covers a different
+traversal.  The unlink path through indx_get_entry_to_replace() still
+ignores the fnd_push() result.
+
+The reproducer requires a privileged writable mount of a crafted NTFS
+image.  It demonstrates a CPU-consuming hang and a continuously growing
+kernel memory leak; it does not demonstrate privilege escalation.
+
+Tested source revision:
+HEAD commit:    8d7fe9885c62fc9a95bf55d9db244d9672a8aadc
+git tree:       fe970b05333fb8e41da21e9e289f652abcc7cba7
+source version: Linux 7.4.0-rc4
+compiler:       gcc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0,
+                GNU ld 2.38
+
+console output:
+https://gist.githubusercontent.com/shaos26/6527bc7b947fae21f2ff589d7725c451/raw/d7f2cde89b263e212053d7913002432466d8db34/console-output.txt
+kernel config:
+https://gist.githubusercontent.com/shaos26/6527bc7b947fae21f2ff589d7725c451/raw/c81a372534f86268589d2efee757cb035d5ba38a/kernel-config.txt
+reproducer:
+https://gist.githubusercontent.com/shaos26/6527bc7b947fae21f2ff589d7725c451/raw/cdb9e24d2f6aeac681926cef142f1634eb6fef2d/poc.c
+image setup helper:
+https://gist.githubusercontent.com/shaos26/6527bc7b947fae21f2ff589d7725c451/raw/0e7a810823bb17c6a2dda9e9fda5563fb3c30183/setup.c
+index image mutator:
+https://gist.githubusercontent.com/shaos26/6527bc7b947fae21f2ff589d7725c451/raw/fbe29e409a7507eecae2c7270558c81b3b0da6b6/ntfs_selfvcn_patch.py
+patched-kernel config:
+https://gist.githubusercontent.com/shaos26/6527bc7b947fae21f2ff589d7725c451/raw/d204ab19c4a8824c83293b94741f80cc0fa52b0a/patched-kernel-config.txt
+
+Create an NTFS image, compile setup.c, and boot it as /init in a minimal
+initramfs with the image attached as /dev/vda:
+
+    truncate -s 256M ntfs.img
+    mkntfs -F -Q ntfs.img
+    gcc -O2 -Wall -Wextra -static -o setup setup.c
+    mkdir -p setup-root
+    cp setup setup-root/init
+    chmod 0755 setup-root/init
+    (cd setup-root && find . -print0 | cpio --null -o -H newc) |
+        gzip -9 > setup-initramfs.cpio.gz
+    qemu-system-x86_64 -m 2G -smp 2 \
+        -kernel <linux-tree>/arch/x86/boot/bzImage \
+        -initrd setup-initramfs.cpio.gz \
+        -drive file=ntfs.img,format=raw,if=virtio \
+        -append 'console=ttyS0 rdinit=/init panic=-1 loglevel=6' \
+        -nographic -monitor none -no-reboot
+
+The setup helper creates /tree/file_0 through /tree/file_599 and powers
+off.  Copy the resulting image and make the self-VCN mutation:
+
+    cp ntfs.img trigger.img
+    python3 ntfs_selfvcn_patch.py trigger.img --patch \
+        --out trigger.img --target-file target.txt
+
+Build poc.c statically, place it at /init in a new initramfs, and place
+target.txt at /target in that archive:
+
+    gcc -O2 -Wall -Wextra -static -o poc poc.c
+    mkdir -p poc-root
+    cp poc poc-root/init
+    cp target.txt poc-root/target
+    chmod 0755 poc-root/init
+    (cd poc-root && find . -print0 | cpio --null -o -H newc) |
+        gzip -9 > poc-initramfs.cpio.gz
+
+Boot the mutated trigger image as /dev/vda with:
+
+    qemu-system-x86_64 -m 2G -smp 2 \
+        -kernel <linux-tree>/arch/x86/boot/bzImage \
+        -initrd poc-initramfs.cpio.gz \
+        -drive file=trigger.img,format=raw,if=virtio \
+        -append 'console=ttyS0 rdinit=/init panic=-1 loglevel=6' \
+        -nographic -monitor none -no-reboot
+
+Two vulnerable runs remained in the unlink loop after SIGKILL.  In one
+run, kmalloc-4k grew by 270800 objects after one second and by 356140
+after the signal.  With this patch, unlink returned -EINVAL in 36 ms,
+the target remained present, and kmalloc-4k grew by 24 objects.  The
+sibling and partial-VCN controls completed normally.
+
+Check the fnd_push() result and release the current node if the search
+path cannot accept it.  fnd_clear() then releases nodes already on the
+path:
+
+Fixes: 82cae269cfa9 ("fs/ntfs3: Add initialization of super block")
+Signed-off-by: shaos <shawnq1@163.com>
 ---
- fs/ntfs3/super.c | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
+ fs/ntfs3/index.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index 29aabdc8a8012..6beb850fc1dbf 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -626,18 +626,31 @@ static const struct proc_ops ntfs3_label_fops = {
- static void ntfs_create_procdir(struct super_block *sb)
- {
- 	struct proc_dir_entry *e;
-+	struct ntfs_sb_info *sbi;
-+	struct proc_dir_entry *volinfo, *label;
+diff --git a/fs/ntfs3/index.c b/fs/ntfs3/index.c
+index c06b367604487..151b71d4ddd94 100644
+--- a/fs/ntfs3/index.c
++++ b/fs/ntfs3/index.c
+@@ -2303,7 +2303,11 @@ static int indx_get_entry_to_replace(struct ntfs_index *indx,
+ 			goto out;
  
- 	if (!proc_info_root)
- 		return;
- 
- 	e = proc_mkdir(sb->s_id, proc_info_root);
--	if (e) {
--		struct ntfs_sb_info *sbi = sb->s_fs_info;
-+	if (!e)
-+		return;
-+
-+	sbi = sb->s_fs_info;
- 
--		proc_create_data("volinfo", 0444, e, &ntfs3_volinfo_fops, sb);
--		proc_create_data("label", 0644, e, &ntfs3_label_fops, sb);
--		sbi->procdir = e;
-+	volinfo = proc_create_data("volinfo", 0444, e, &ntfs3_volinfo_fops, sb);
-+	label = proc_create_data("label", 0644, e, &ntfs3_label_fops, sb);
-+
-+	if (!volinfo || !label) {
-+		if (volinfo)
-+			remove_proc_entry("volinfo", e);
-+		if (label)
-+			remove_proc_entry("label", e);
-+		remove_proc_entry(sb->s_id, proc_info_root);
-+		return;
- 	}
-+
-+	sbi->procdir = e;
- }
- 
- static void ntfs_remove_procdir(struct super_block *sb)
+ 		e = hdr_first_de(&n->index->ihdr);
+-		fnd_push(fnd, n, e);
++		err = fnd_push(fnd, n, e);
++		if (err) {
++			put_indx_node(n);
++			goto out;
++		}
+ 		if (!e) {
+ 			err = -EINVAL;
+ 			goto out;
 -- 
-2.43.0
+2.34.1
+
+Thanks,
+
+shaos
 
